@@ -23,6 +23,10 @@ def handle_request(json_string):
         # Comment is not on a pull request
         return
 
+    if event.getIssue().getState() != IssueService.STATE_OPEN:
+        # Pull request is already closed
+        return
+
     message = event.getComment().getBody().lower()
     if not message.startswith("xlr:"):
         # Comment is not for XL Release

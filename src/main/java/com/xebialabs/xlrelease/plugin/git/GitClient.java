@@ -147,8 +147,8 @@ public class GitClient {
                         .call();
                 return repo;
             } catch (Exception e) {
-                throw new RuntimeException(format("Could not initialize repository %s at %s",
-                        repositoryUrl, repoFolder), e);
+                throw new RuntimeException(format("Could not initialize repository %s at %s: %s",
+                        repositoryUrl, repoFolder, e.getMessage()), e);
             }
 
         } else {
