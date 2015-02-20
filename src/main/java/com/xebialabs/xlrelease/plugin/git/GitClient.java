@@ -47,7 +47,16 @@ public class GitClient {
         this.repositoriesFolder = new File(config.getString("xlr-github-plugin.repositories-location"));
     }
 
-    public void squashBranch(String sourceBranch, String targetBranch, String message) throws GitAPIException, IOException {
+    /**
+     * Merges one branch into another, squashing all commits into one with a given message.
+     * @param sourceBranch  branch to merge
+     * @param targetBranch  base branch
+     * @param message       message for the new commit
+     * @return              ID of the created squash commit
+     * @throws GitAPIException
+     * @throws IOException
+     */
+    public String squashBranch(String sourceBranch, String targetBranch, String message) throws GitAPIException, IOException {
         Git git = fetchOrCloneRepository(Arrays.asList(targetBranch, sourceBranch));
 
         if (git.getRepository().getRef(targetBranch) == null) {
@@ -92,11 +101,12 @@ public class GitClient {
 
         logger.info("Squash-merging branch {} into {} with author {} and message [{}]",
                 sourceBranch, targetBranch, mainAuthor.getEmailAddress(), message);
-        git.commit()
+        RevCommit squashCommit = git.commit()
                 .setMessage(message)
                 .setCommitter(new PersonIdent(mainAuthor, new Date()))
                 .call();
         push(git);
+        return squashCommit.getName();
     }
 
     @VisibleForTesting
@@ -152,6 +162,7 @@ public class GitClient {
                         .setURI(repositoryUrl)
                         .setBranchesToClone(branchSpecs)
                         .setCredentialsProvider(getCredentials())
+                        .setBranch(branches.get(0))
                         .call();
             } catch (GitAPIException e) {
                 throw new RuntimeException("Could not checkout repository " + repositoryUrl, e);

@@ -77,10 +77,11 @@ public class GitClientTest {
         commitChange("change 1", JOHN_B);
         commitChange("change 2", JOHN_B);
 
-        git.squashBranch(SOURCE_BRANCH, TARGET_BRANCH, "I squashed it");
+        String sha = git.squashBranch(SOURCE_BRANCH, TARGET_BRANCH, "I squashed it");
 
         RevCommit commit = checkout(TARGET_BRANCH);
         assertThat(commit.getFullMessage()).isEqualTo("I squashed it");
+        assertThat(sha).isEqualTo(commit.getName());
         assertThat(Files.toString(testFile, UTF_8));
         int current = (int) (System.currentTimeMillis() / 1000);
         assertThat(commit.getCommitTime()).isBetween(current - 5, current + 5);

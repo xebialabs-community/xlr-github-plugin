@@ -13,6 +13,7 @@ dependencies {
   compile 'org.slf4j:jcl-over-slf4j:1.7.7'
   compile 'org.slf4j:log4j-over-slf4j:1.7.7'
   compile 'com.typesafe:config:1.2.0'
+  compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
 
   testCompile 'org.assertj:assertj-core:1.6.0'
   testCompile 'junit:junit:4.11'
