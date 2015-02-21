@@ -1,3 +1,9 @@
+#
+# THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+# FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+#
+
 import sys
 import re
 
@@ -7,11 +13,13 @@ from org.eclipse.egit.github.core.client import GitHubClient
 from org.eclipse.egit.github.core.service import PullRequestService
 from org.eclipse.egit.github.core import RepositoryId
 from org.eclipse.egit.github.core.service import IssueService
+from com.google.gson import Gson
 from com.xebialabs.xlrelease.plugin.git import GitClient
 
 
-def handle_request(json_string):
+def handle_request(json_dict):
     try:
+        json_string = Gson().toJson(json_dict)
         event = GsonUtils.fromJson(json_string, IssueCommentPayload)
     except StandardError:
         _, e, _ = sys.exc_info()
@@ -90,8 +98,7 @@ def _squash(xlr_git_repo, pr):
     return git_client.squashBranch(source_branch, target_branch, merge_message)
 
 
-json_string_test = open('/Users/bulat/fun/xlr-github-plugin/src/test/resources/pr-comment-payload.json').read()
-handle_request(json_string_test)
+handle_request(request.entity)
 
 # from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 # from java.util import HashMap
