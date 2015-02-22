@@ -16,6 +16,7 @@ dependencies {
   compile fileTree(dir: "$xlReleaseHome/lib", include: [
       'xl-release-server*.jar',
       'udm-plugin-api*.jar',
+      'xl-repository-api*.jar',
       'guava*.jar',
       'config*.jar',
       '*jgit*.jar',
