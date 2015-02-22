@@ -4,7 +4,7 @@ plugins {
 apply plugin: 'java'
 
 group 'com.xebialabs.xlrelease.plugins'
-version '0.1-SNAPSHOT'
+version '0.1'
 
 def xlReleaseHome = project.hasProperty('xlReleaseHome') ? project.xlReleaseHome : System.env.XLRELEASE_HOME
 if (!xlReleaseHome) {
@@ -36,7 +36,20 @@ dependencies {
 license {
   header rootProject.file('src/main/license/xebialabs_community.license')
   strictCheck true
-  excludes(["**/*.json", "**/bootstrap/*.py"])
+  excludes(["**/*.json", "**/*.conf", "**/bootstrap/*.py"])
+}
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+artifacts {
+  archives sourcesJar
+  archives javadocJar
 }
 
 repositories {
