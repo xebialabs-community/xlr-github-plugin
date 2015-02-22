@@ -3,7 +3,7 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
  * FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
  */
-package com.xebialabs.xlrelease.plugin.git;
+package com.xebialabs.xlrelease.plugin.github;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.*;
 
 import static java.lang.String.format;
@@ -53,10 +56,18 @@ public class GitClient {
      * @param targetBranch  base branch
      * @param message       message for the new commit
      * @return              ID of the created squash commit
-     * @throws GitAPIException
-     * @throws IOException
      */
-    public String squashBranch(String sourceBranch, String targetBranch, String message) throws GitAPIException, IOException {
+    public String squashBranch(final String sourceBranch, final String targetBranch, final String message) throws GitAPIException, IOException, PrivilegedActionException {
+        // Do in privileged block to avoid problems when this is invoked from a script task
+        return AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
+            @Override
+            public String run() throws GitAPIException, IOException {
+                return doSquashBranch(sourceBranch, targetBranch, message);
+            }
+        });
+    }
+
+    private String doSquashBranch(String sourceBranch, String targetBranch, String message) throws GitAPIException, IOException {
         Git git = fetchOrCloneRepository(Arrays.asList(targetBranch, sourceBranch));
 
         if (git.getRepository().getRef(targetBranch) == null) {
