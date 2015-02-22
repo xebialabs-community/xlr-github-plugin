@@ -3,7 +3,7 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
  * FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
  */
-package com.xebialabs.xlrelease.plugin.git;
+package com.xebialabs.xlrelease.plugin.github;
 
 /**
  * Exception thrown when automatic merge of branches cannot be done.

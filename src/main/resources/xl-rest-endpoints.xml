@@ -10,6 +10,6 @@
            xmlns="http://www.xebialabs.com/deployit/endpoints"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/endpoints endpoints.xsd">
 
-    <endpoint path="/github/pr-merge-hook" method="POST" script="github/PrMergeHook.py"/>
+    <endpoint path="/github/pr-merge-hook" method="POST" script="github/pr_merge_hook.py"/>
 
 </endpoints>

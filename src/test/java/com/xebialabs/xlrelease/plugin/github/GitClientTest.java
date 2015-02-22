@@ -3,7 +3,7 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
  * FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
  */
-package com.xebialabs.xlrelease.plugin.git;
+package com.xebialabs.xlrelease.plugin.github;
 
 import com.google.common.io.Files;
 import org.eclipse.jgit.api.Git;
@@ -17,7 +17,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 import static com.google.common.base.Charsets.UTF_8;
@@ -42,7 +41,7 @@ public class GitClientTest {
     private Git testRepo;
 
     @Before
-    public void setup() throws GitAPIException, IOException {
+    public void setup() throws Exception {
         testFolder = Files.createTempDir();
         testFile = new File(testFolder, "test.txt");
         Files.touch(testFile);
@@ -73,7 +72,7 @@ public class GitClientTest {
     }
 
     @Test
-    public void should_merge_changes() throws GitAPIException, IOException {
+    public void should_merge_changes() throws Exception {
         commitChange("change 1", JOHN_B);
         commitChange("change 2", JOHN_B);
 
@@ -88,7 +87,7 @@ public class GitClientTest {
     }
 
     @Test(expected = MergeFailedException.class)
-    public void should_fail_when_not_mergeable() throws GitAPIException, IOException {
+    public void should_fail_when_not_mergeable() throws Exception {
         commitChange("change 1", JOHN_B);
         checkout(TARGET_BRANCH);
         commitChange("change 2", JOHN_C);
@@ -97,7 +96,7 @@ public class GitClientTest {
     }
 
     @Test
-    public void should_identify_main_author_on_single_commit() throws GitAPIException, IOException {
+    public void should_identify_main_author_on_single_commit() throws Exception {
         commitChange("change 1", JOHN_C);
         git.squashBranch(SOURCE_BRANCH, TARGET_BRANCH, "I squashed it");
         RevCommit commit = checkout(TARGET_BRANCH);
@@ -106,7 +105,7 @@ public class GitClientTest {
     }
 
     @Test
-    public void should_identify_main_author_on_multiple_commits() throws GitAPIException, IOException {
+    public void should_identify_main_author_on_multiple_commits() throws Exception {
         commitChange("change 1", JOHN_B);
         commitChange("change 2", JOHN_C);
         commitChange("change 3", JOHN_C);
@@ -119,7 +118,7 @@ public class GitClientTest {
     }
 
     @Test
-    public void should_give_first_author_priority() throws GitAPIException, IOException {
+    public void should_give_first_author_priority() throws Exception {
         commitChange("change 1", JOHN_C);
         commitChange("change 2", JOHN_B);
         commitChange("change 3", JOHN_C);
@@ -135,11 +134,11 @@ public class GitClientTest {
         return testRepo.log().setMaxCount(1).call().iterator().next();
     }
 
-    private void commitChange(String text, PersonIdent author) throws GitAPIException, IOException {
+    private void commitChange(String text, PersonIdent author) throws Exception {
         commitChange(text, author, "Change by " + author.getName());
     }
 
-    private void commitChange(String text, PersonIdent author, String message) throws GitAPIException, IOException {
+    private void commitChange(String text, PersonIdent author, String message) throws Exception {
         Files.write(text, testFile, UTF_8);
         testRepo.add().addFilepattern(testFile.getName()).call();
         testRepo.commit()

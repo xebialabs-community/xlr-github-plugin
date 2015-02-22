@@ -1,0 +1,173 @@
+{
+  "$createdAt": "2015-02-21T23:35:11.755+0100",
+  "$createdBy": "admin",
+  "$lastModifiedAt": "2015-02-22T14:25:48.567+0100",
+  "$lastModifiedBy": "admin",
+  "abortOnFailure": true,
+  "allowConcurrentReleasesFromTrigger": true,
+  "attachments": [],
+  "calendarPublished": false,
+  "createdFromTrigger": false,
+  "description": "Does following actions with a pull request:\n1. merges changes into base branch by squashing all commits into one,\n2. closes the pull request,\n3. deletes the head (feature) branch.",
+  "flagStatus": "OK",
+  "id": "Applications/Release5224321",
+  "memberViewers": [
+    "admin"
+  ],
+  "passwordVariableValues": {},
+  "phases": [
+    {
+      "$createdAt": "2015-02-21T23:35:11.801+0100",
+      "$createdBy": "admin",
+      "$lastModifiedAt": "2015-02-21T23:35:27.995+0100",
+      "$lastModifiedBy": "admin",
+      "color": "#009CDB",
+      "flagStatus": "OK",
+      "id": "Applications/Release5224321/Phase1325785",
+      "release": "Applications/Release5224321",
+      "status": "PLANNED",
+      "tasks": [
+        {
+          "$createdAt": "2015-02-21T23:36:11.117+0100",
+          "$createdBy": "admin",
+          "$lastModifiedAt": "2015-02-22T13:51:02.155+0100",
+          "$lastModifiedBy": "admin",
+          "attachments": [],
+          "comments": [],
+          "container": "Applications/Release5224321/Phase1325785",
+          "failuresCount": 0,
+          "flagStatus": "OK",
+          "hasBeenDelayed": false,
+          "hasBeenFlagged": false,
+          "id": "Applications/Release5224321/Phase1325785/Task6885869",
+          "overdueNotified": false,
+          "script": "import sys\nfrom com.xebialabs.xlrelease.plugin.github import GitHubUtils\nfrom org.eclipse.egit.github.core.service import PullRequestService\nfrom org.eclipse.egit.github.core.service import IssueService\n\npull_request_number = int('${pull_request_number}')\npull_request_title = '${pull_request_title}'\nrepository_full_name = '${repository_full_name}'\npull_request_comment = '${pull_request_comment}'\n\ngithub_client = GitHubUtils.getGitHubClient(repository_full_name)\nrepository = GitHubUtils.createRepositoryId(repository_full_name)\nissue_service = IssueService(github_client)\npr_service = PullRequestService(github_client)\n\n\ndef cancel_release(message):\n    logger.info('Creating a comment on PR #%s: \"%s\"' % (pull_request_number, message))\n    issue_service.createComment(repository, pull_request_number, message)\n    sys.exit(1)\n\nif 'squash' not in pull_request_comment:\n    cancel_release(\"I don't understand what you ask me. Did you mean 'xlr: squash this'?\")\n\npr = pr_service.getPullRequest(repository, pull_request_number)\nif not pr.isMergeable:\n    cancel_release(\"This pull request is not automatically mergeable\")\n\nif pr.getBase().getRepo().getId() != pr.getHead().getRepo().getId():\n    cancel_release(\"I can only merge pull requests from the same repository\")",
+          "status": "PLANNED",
+          "title": "Check the pull request",
+          "type": "xlrelease.ScriptTask",
+          "waitForScheduledStartDate": true
+        },
+        {
+          "$createdAt": "2015-02-22T00:18:07.143+0100",
+          "$createdBy": "admin",
+          "$lastModifiedAt": "2015-02-22T14:24:43.168+0100",
+          "$lastModifiedBy": "admin",
+          "attachments": [],
+          "comments": [],
+          "container": "Applications/Release5224321/Phase1325785",
+          "failuresCount": 0,
+          "flagStatus": "OK",
+          "hasBeenDelayed": false,
+          "hasBeenFlagged": false,
+          "id": "Applications/Release5224321/Phase1325785/Task8015801",
+          "overdueNotified": false,
+          "script": "from com.xebialabs.xlrelease.plugin.github import GitHubUtils\nfrom org.eclipse.egit.github.core.service import PullRequestService\nfrom org.eclipse.egit.github.core.service import IssueService\n\npull_request_number = int('${pull_request_number}')\nrepository_full_name = '${repository_full_name}'\n\ngithub_client = GitHubUtils.getGitHubClient(repository_full_name)\nrepository = GitHubUtils.createRepositoryId(repository_full_name)\nissue_service = IssueService(github_client)\npr_service = PullRequestService(github_client)\n\npr = pr_service.getPullRequest(repository, pull_request_number)\ngit_client = GitHubUtils.getGitClient(repository_full_name)\nsource_branch = pr.getHead().getRef()\ntarget_branch = pr.getBase().getRef()\nmerge_message = pr.getTitle()\n\nlogger.info(\"Merging branch %s into %s in repository %s with message '%s'\" %\n            (source_branch, target_branch, repository_full_name, merge_message))\nsquash_commit_id = git_client.squashBranch(source_branch, target_branch, merge_message)\n\nissue_service.createComment(repository, pull_request_number,\n                            \"Merged this pull request by squashed commit %s\" % squash_commit_id)",
+          "status": "PLANNED",
+          "title": "Squash commits",
+          "type": "xlrelease.ScriptTask",
+          "waitForScheduledStartDate": true
+        },
+        {
+          "$createdAt": "2015-02-22T14:25:02.461+0100",
+          "$createdBy": "admin",
+          "$lastModifiedAt": "2015-02-22T14:25:20.312+0100",
+          "$lastModifiedBy": "admin",
+          "attachments": [],
+          "comments": [],
+          "container": "Applications/Release5224321/Phase1325785",
+          "failuresCount": 0,
+          "flagStatus": "OK",
+          "hasBeenDelayed": false,
+          "hasBeenFlagged": false,
+          "id": "Applications/Release5224321/Phase1325785/Task3788690",
+          "overdueNotified": false,
+          "script": "from com.xebialabs.xlrelease.plugin.github import GitHubUtils\nfrom org.eclipse.egit.github.core.service import PullRequestService\nfrom org.eclipse.egit.github.core.service import IssueService\n\npull_request_number = int('${pull_request_number}')\nrepository_full_name = '${repository_full_name}'\n\ngithub_client = GitHubUtils.getGitHubClient(repository_full_name)\nrepository = GitHubUtils.createRepositoryId(repository_full_name)\npr_service = PullRequestService(github_client)\n\npr = pr_service.getPullRequest(repository, pull_request_number)\npr.setState(IssueService.STATE_CLOSED)\npr = pr_service.editPullRequest(repository, pr)",
+          "status": "PLANNED",
+          "title": "Close pull request",
+          "type": "xlrelease.ScriptTask",
+          "waitForScheduledStartDate": true
+        },
+        {
+          "$createdAt": "2015-02-22T14:25:41.953+0100",
+          "$createdBy": "admin",
+          "$lastModifiedAt": "2015-02-22T14:25:48.536+0100",
+          "$lastModifiedBy": "admin",
+          "attachments": [],
+          "comments": [],
+          "container": "Applications/Release5224321/Phase1325785",
+          "failuresCount": 0,
+          "flagStatus": "OK",
+          "hasBeenDelayed": false,
+          "hasBeenFlagged": false,
+          "id": "Applications/Release5224321/Phase1325785/Task6690778",
+          "overdueNotified": false,
+          "script": "from com.xebialabs.xlrelease.plugin.github import GitHubUtils\nfrom org.eclipse.egit.github.core.service import PullRequestService\n\npull_request_number = int('${pull_request_number}')\nrepository_full_name = '${repository_full_name}'\n\ngithub_client = GitHubUtils.getGitHubClient(repository_full_name)\nrepository = GitHubUtils.createRepositoryId(repository_full_name)\npr_service = PullRequestService(github_client)\n\npr = pr_service.getPullRequest(repository, pull_request_number)\n\nif pr.getHead().getRef() != 'master':\n    github_client.delete('/repos/%s/git/refs/heads/%s' % (repository_full_name, pr.getHead().getRef()))\nelse:\n    logger.info(\"Don't ask me to delete 'master' branch!\")",
+          "status": "PLANNED",
+          "title": "Delete feature branch",
+          "type": "xlrelease.ScriptTask",
+          "waitForScheduledStartDate": true
+        }
+      ],
+      "title": "Merge",
+      "type": "xlrelease.Phase"
+    }
+  ],
+  "queryableStartDate": "2015-02-21T09:00:00+01:00",
+  "realFlagStatus": "OK",
+  "releaseTriggers": [],
+  "roleViewers": [],
+  "runningTriggeredReleasesCount": 0,
+  "scheduledStartDate": "2015-02-21T09:00:00+01:00",
+  "scriptUserPassword": "{b64}YFKOzMTEICsqFJ592l2FbQ==",
+  "scriptUsername": "admin",
+  "status": "TEMPLATE",
+  "tags": [
+    "pull_request_merger"
+  ],
+  "teams": [
+    {
+      "$createdAt": "2015-02-21T23:35:11.825+0100",
+      "$createdBy": "admin",
+      "$lastModifiedAt": "2015-02-21T23:35:11.825+0100",
+      "$lastModifiedBy": "admin",
+      "id": "Applications/Release5224321/Team2106383",
+      "members": [
+        "admin"
+      ],
+      "permissions": [
+        "template#create_release",
+        "template#view",
+        "template#edit",
+        "template#edit_security"
+      ],
+      "roles": [],
+      "teamName": "Template Owner",
+      "type": "xlrelease.Team"
+    },
+    {
+      "$createdAt": "2015-02-21T23:35:11.880+0100",
+      "$createdBy": "admin",
+      "$lastModifiedAt": "2015-02-21T23:35:11.880+0100",
+      "$lastModifiedBy": "admin",
+      "id": "Applications/Release5224321/Team5393113",
+      "members": [],
+      "permissions": [
+        "template#view",
+        "release#view",
+        "release#edit",
+        "release#edit_security",
+        "release#start",
+        "release#abort",
+        "release#edit_task",
+        "release#reassign_task"
+      ],
+      "roles": [],
+      "teamName": "Release Admin",
+      "type": "xlrelease.Team"
+    }
+  ],
+  "title": "GitHub Pull Request Merger",
+  "tutorial": false,
+  "type": "xlrelease.Release",
+  "variableValues": {}
+}
