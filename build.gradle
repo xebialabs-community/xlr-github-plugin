@@ -6,13 +6,21 @@ apply plugin: 'java'
 group 'com.xebialabs.xlrelease.plugins'
 version '0.1-SNAPSHOT'
 
+def xlReleaseHome = project.hasProperty('xlReleaseHome') ? project.xlReleaseHome : System.env.XLRELEASE_HOME
+if (!xlReleaseHome) {
+  throw new RuntimeException("Please specify location of unpacked XL Release server installation in your " +
+      "gradle.properties or with '-PxlReleaseHome=/path/to/xl/release/server' command line option")
+}
+
 dependencies {
-  compile 'org.eclipse.jgit:org.eclipse.jgit:3.4.1.201406201815-r'
-  compile 'com.xebialabs.deployit:udm-plugin-api:2015.1'
-  compile 'com.google.guava:guava:16.0.1'
-  compile 'org.slf4j:jcl-over-slf4j:1.7.7'
-  compile 'org.slf4j:log4j-over-slf4j:1.7.7'
-  compile 'com.typesafe:config:1.2.0'
+  compile fileTree(dir: "$xlReleaseHome/lib", include: [
+      'xl-release-server*.jar',
+      'udm-plugin-api*.jar',
+      'guava*.jar',
+      'config*.jar',
+      '*jgit*.jar',
+      '*slf4j*.jar', 'logback*.jar'
+  ])
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
 
   testCompile 'org.assertj:assertj-core:1.6.0'
@@ -20,12 +28,12 @@ dependencies {
   testCompile 'org.hamcrest:hamcrest-core:1.3'
   testCompile 'org.hamcrest:hamcrest-library:1.3'
   testCompile 'org.mockito:mockito-core:1.9.5'
-  testCompile 'org.mockito:mockito-core:1.9.5'
 }
 
 license {
   header rootProject.file('src/main/license/xebialabs_community.license')
   strictCheck true
+  excludes(["**/*.json", "**/bootstrap/*.py"])
 }
 
 repositories {
