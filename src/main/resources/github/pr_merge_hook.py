@@ -13,6 +13,7 @@ from org.eclipse.egit.github.core.service import IssueService
 from com.google.gson import Gson
 from com.xebialabs.xlrelease.api.v1.forms import StartRelease
 from java.util import HashMap
+from com.xebialabs.xlrelease.plugin.github import GitHubUtils
 
 
 def handle_request(json_dict):
@@ -49,10 +50,11 @@ def start_pr_release(repo_full_name, pr_number, pr_title, comment):
     tag = 'pull_request_merger'
     pr_templates = templateApi.getTemplates(tag)
     if not pr_templates:
-        raise StandardError("Could not find any template with tag '%s'. Please create one." % tag)
-    if len(pr_templates) > 1:
-        logger.warn("Found more than one template with tag '%s', using the first one" % tag)
-    template = pr_templates[0]
+        template_id = GitHubUtils.bootstrapPRMergerTemplate()
+    else:
+        if len(pr_templates) > 1:
+            logger.warn("Found more than one template with tag '%s', using the first one" % tag)
+        template_id = pr_templates[0].id
 
     params = StartRelease()
     params.setReleaseTitle('Merge PR #%s: %s' % (pr_number, pr_title))
@@ -62,7 +64,7 @@ def start_pr_release(repo_full_name, pr_number, pr_title, comment):
     variables.put('${repository_full_name}', '%s' % repo_full_name)
     variables.put('${pull_request_comment}', '%s' % comment)
     params.setReleaseVariables(variables)
-    started_release = templateApi.start(template.id, params)
+    started_release = templateApi.start(template_id, params)
     response.entity = started_release
     logger.info("Started release %s to merge pull request %s" % (started_release.getId(), pr_number))
 

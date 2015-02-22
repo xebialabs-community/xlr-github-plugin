@@ -17,6 +17,8 @@ dependencies {
       'xl-release-server*.jar',
       'udm-plugin-api*.jar',
       'xl-repository-api*.jar',
+      'swagger*.jar',
+      'jaxrs-api*.jar',
       'guava*.jar',
       'config*.jar',
       '*jgit*.jar',
