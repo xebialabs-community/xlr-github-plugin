@@ -26,7 +26,7 @@ def handle_request(json_dict):
                     "configuration. Error: %s. Payload:\n%s" % (e, json_string))
         return
 
-    if not event.getIssue().getPullRequest() or not event.getIssue().getPullRequest().getUrl():
+    if not event.getIssue() or not event.getIssue().getPullRequest() or not event.getIssue().getPullRequest().getUrl():
         logger.debug("Issue #%s is not a pull request" % event.getIssue().getNumber())
         return
 
