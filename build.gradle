@@ -4,7 +4,7 @@ plugins {
 apply plugin: 'java'
 
 group 'com.xebialabs.xlrelease.plugins'
-version '0.1'
+version '0.2-SNAPSHOT'
 
 def xlReleaseHome = project.hasProperty('xlReleaseHome') ? project.xlReleaseHome : System.env.XLRELEASE_HOME
 if (!xlReleaseHome) {
