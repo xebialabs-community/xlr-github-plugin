@@ -23,7 +23,7 @@ if 'squash' not in pull_request_comment:
     cancel_release("I don't understand what you ask me. Did you mean 'xlr: squash this'?")
 
 pr = pr_service.getPullRequest(repository, pull_request_number)
-if not pr.isMergeable:
+if not pr.isMergeable():
     cancel_release("This pull request is not automatically mergeable")
 
 if pr.getBase().getRepo().getId() != pr.getHead().getRepo().getId():
