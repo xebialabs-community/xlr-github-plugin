@@ -14,15 +14,16 @@ if (!xlReleaseHome) {
 
 dependencies {
   compile fileTree(dir: "$xlReleaseHome/lib", include: [
-      'xl-release-server*.jar',
-      'udm-plugin-api*.jar',
-      'xl-repository-api*.jar',
-      'swagger*.jar',
-      'jaxrs-api*.jar',
-      'guava*.jar',
-      'config*.jar',
-      '*jgit*.jar',
-      '*slf4j*.jar', 'logback*.jar'
+      'xl-release-server-*.jar',
+      'udm-plugin-api-*.jar',
+      'xl-repository-api-*.jar',
+      'swagger-*.jar',
+      'jaxrs-api-*.jar',
+      'guava-*.jar',
+      'config-*.jar',
+      '*jgit-*.jar',
+      'jsch-*.jar',
+      '*slf4j-*.jar', 'logback-*.jar'
   ])
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
 

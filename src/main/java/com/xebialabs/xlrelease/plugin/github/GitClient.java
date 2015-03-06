@@ -5,11 +5,12 @@
  */
 package com.xebialabs.xlrelease.plugin.github;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
+import java.io.File;
+import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+import java.util.*;
 import org.eclipse.jgit.api.CreateBranchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -21,16 +22,19 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.*;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 import static java.lang.String.format;
-import static org.eclipse.jgit.lib.Constants.*;
+import static org.eclipse.jgit.api.ResetCommand.ResetType.HARD;
+import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
+import static org.eclipse.jgit.lib.Constants.FETCH_HEAD;
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 
 public class GitClient {
 
@@ -80,13 +84,17 @@ public class GitClient {
                     .setForce(true)
                     .call();
         } else {
-            // Update local branch from fetched remote
+            // Cleanup and pull target branch
+            git.reset()
+                    .setMode(HARD)
+                    .setRef(HEAD)
+                    .call();
             git.checkout()
                     .setName(targetBranch)
                     .setForce(true)
                     .call();
             git.merge()
-                    .include(git.getRepository().getRef(remote(targetBranch)))
+                    .include(git.getRepository().getRef(FETCH_HEAD))
                     .call();
         }
 
