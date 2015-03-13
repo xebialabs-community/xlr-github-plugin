@@ -94,7 +94,7 @@ public class GitClient {
                     .setForce(true)
                     .call();
             git.merge()
-                    .include(git.getRepository().getRef(FETCH_HEAD))
+                    .include(git.getRepository().getRef(remote(targetBranch)))
                     .call();
         }
 
