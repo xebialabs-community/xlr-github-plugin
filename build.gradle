@@ -13,7 +13,7 @@ buildscript {
 }
 plugins {
   id "com.github.hierynomus.license" version "0.11.0"
-  id "com.xebialabs.xl-deploy" version "0.2.0"
+  id "com.xebialabs.xl-deploy" version "0.2.1"
 }
 apply plugin: 'java'
 
@@ -78,9 +78,9 @@ xldeploy {
   xldUrl = project.property('xlr-github-plugin.xldeploy.host')
   xldUsername = project.property('xlr-github-plugin.xldeploy.username')
   xldPassword = project.property('xlr-github-plugin.xldeploy.password')
+  xldEnvironmentId = project.property('xlr-github-plugin.xldeploy.environment')
 }
 tasks.deploy.configure {
-  environmentId = project.property('xlr-github-plugin.xldeploy.environment')
   deletePreviouslyDeployedDar = true
   generateDeployedOnUpgrade = true
 }
