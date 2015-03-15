@@ -1,7 +1,19 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
+buildscript {
+  repositories {
+    jcenter()
+    maven {
+      url "http://www.knopflerfish.org/maven2/"
+    }
+    maven {
+      url "https://dist.xebialabs.com/public/maven2/"
+    }
+  }
+}
 plugins {
   id "com.github.hierynomus.license" version "0.11.0"
+  id "com.xebialabs.xl-deploy" version "0.2.0"
 }
 apply plugin: 'java'
 
@@ -55,14 +67,24 @@ artifacts {
   archives javadocJar
 }
 
-repositories {
-  mavenLocal()
-  mavenCentral()
-}
-
 processResources.configure {
   filter ReplaceTokens, tokens: [
       'project.version': version.toString(),
       'project.name': rootProject.name
   ]
+}
+
+xldeploy {
+  xldUrl = "http://localhost:4516/"
+  xldUsername = "admin"
+  xldPassword = "admin"
+}
+tasks.deploy.configure {
+  environmentId = "Environments/local"
+  deletePreviouslyDeployedDar = true
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
 }
