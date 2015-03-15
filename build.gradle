@@ -75,13 +75,14 @@ processResources.configure {
 }
 
 xldeploy {
-  xldUrl = "http://localhost:4516/"
-  xldUsername = "admin"
-  xldPassword = "admin"
+  xldUrl = project.property('xlr-github-plugin.xldeploy.host')
+  xldUsername = project.property('xlr-github-plugin.xldeploy.username')
+  xldPassword = project.property('xlr-github-plugin.xldeploy.password')
 }
 tasks.deploy.configure {
-  environmentId = "Environments/local"
+  environmentId = project.property('xlr-github-plugin.xldeploy.environment')
   deletePreviouslyDeployedDar = true
+  generateDeployedOnUpgrade = true
 }
 
 repositories {

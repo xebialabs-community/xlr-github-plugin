@@ -85,3 +85,10 @@ Lastly you need to configure the XL Release template which will do the squashing
 Now you can test it. Type a comment on your test pull request: *XL Release: squash this*. In several seconds you should see another comment popping up with an ID of squashed commit, and the pull request becomes closed.
 
 To debug what's happening in XL Release you can go there to *Releases*, filter by *Completed* and see which tasks were executed to merge your pull request and how long it took.
+
+
+# Development #
+
+## Deploying ##
+
+This plugin makes use of [Gradle XL Deploy plugin](https://github.com/xebialabs-community/gradle-xld-plugin) so you can easily deploy it to your XL Release instance. The deployment details are specified in `gradle.properties` file: by default it uses an XL Deploy instance running on localhost, but you can override these values in your `~/.gradle/gradle.properties`.
