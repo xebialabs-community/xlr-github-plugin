@@ -1,4 +1,4 @@
-import org.apache.tools.ant.filters.ReplaceTokens
+import com.xebialabs.gradle.plugins.XlReleasePluginPlugin
 
 buildscript {
   repositories {
@@ -15,30 +15,12 @@ plugins {
   id "com.github.hierynomus.license" version "0.11.0"
   id "com.xebialabs.xl-deploy" version "0.2.1"
 }
-apply plugin: 'java'
+apply plugin: XlReleasePluginPlugin
 
 group 'com.xebialabs.xlrelease.plugins'
 version '0.2-SNAPSHOT'
 
-def xlReleaseHome = project.hasProperty('xlReleaseHome') ? project.xlReleaseHome : System.env.XLRELEASE_HOME
-if (!xlReleaseHome) {
-  throw new RuntimeException("Please specify location of unpacked XL Release server installation in your " +
-      "gradle.properties or with '-PxlReleaseHome=/path/to/xl/release/server' command line option")
-}
-
 dependencies {
-  compile fileTree(dir: "$xlReleaseHome/lib", include: [
-      'xl-release-server-*.jar',
-      'udm-plugin-api-*.jar',
-      'xl-repository-api-*.jar',
-      'swagger-*.jar',
-      'jaxrs-api-*.jar',
-      'guava-*.jar',
-      'config-*.jar',
-      '*jgit-*.jar',
-      'jsch-*.jar',
-      '*slf4j-*.jar', 'logback-*.jar'
-  ])
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
 
   testCompile 'org.assertj:assertj-core:1.6.0'
@@ -60,18 +42,11 @@ task sourcesJar(type: Jar) {
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
   classifier = 'javadoc'
-  from javadoc.destinationDir
+  from javadoc.getDestinationDir()
 }
 artifacts {
   archives sourcesJar
   archives javadocJar
-}
-
-processResources.configure {
-  filter ReplaceTokens, tokens: [
-      'project.version': version.toString(),
-      'project.name': rootProject.name
-  ]
 }
 
 xldeploy {
