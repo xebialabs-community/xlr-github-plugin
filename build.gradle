@@ -38,22 +38,21 @@ dependencies {
   testCompile 'com.xebialabs.xlrelease:data-generator:0.1-SNAPSHOT'
 }
 
-//configurations.compile.extendsFrom configurations.xlReleaseJars
-//compileScala {
-//  scalaCompileOptions.fork = true
-//  scalaCompileOptions.forkOptions.jvmArgs = ['-XX:MaxPermSize=512m']
-//  scalaCompileOptions.additionalParameters = [
-//      "-feature",
-//      "-language:reflectiveCalls",
-//      "-language:postfixOps"
-//  ]
-//}
-
-configurations.xlReleaseJars.each { File file ->
-  if (!file.name.contains('scala')) {
-    dependencies.add('compile', files(file))
-  }
+[
+    'xl-release-server-',
+    'udm-plugin-api-',
+    'xl-repository-api-',
+    'swagger-',
+    'jaxrs-api-',
+    'guava-',
+    'config-',
+    'jgit-',
+    'jsch-',
+    'slf4j-', 'logback-'
+].each { jarNamePart ->
+  dependencies.add('compile', files(configurations.xlReleaseJars.findAll { it.name.contains(jarNamePart) }))
 }
+
 
 license {
   header rootProject.file('src/main/license/xebialabs_community.license')
