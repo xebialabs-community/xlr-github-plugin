@@ -22,8 +22,11 @@ class XlReleasePluginPlugin implements Plugin<Project> {
     configureExtensions(project)
     configureConfigurations(project)
 
-    configureRunTask(project)
-    configureStopTask(project)
+    def start = configureStartTask(project)
+    def stop = configureStopTask(project)
+
+    project.tasks.getByName('itest').dependsOn start
+    project.tasks.getByName('itest').finalizedBy stop
   }
 
   private static def configureExtensions(Project p) {
@@ -68,11 +71,11 @@ class XlReleasePluginPlugin implements Plugin<Project> {
     project.configurations.getByName("compile").extendsFrom allXlrJars
   }
 
-  def static configureRunTask(final Project project) {
+  def static configureStartTask(final Project project) {
     project.tasks.create(START_TASK_NAME, StartXlReleaseTask).configure {
       group = "other"
       description = "Starts XL Release server with current plugin included."
-      dependsOn(['stop', 'classes'])
+      dependsOn(['classes'])
       xlReleaseHome = { -> project.extensions.findByType(XlReleasePluginExtension).xlReleaseHome }
     }
   }

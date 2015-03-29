@@ -13,8 +13,12 @@ class StopXlReleaseTask extends DefaultTask {
   @TaskAction
   @SuppressWarnings("GroovyUnusedDeclaration")
   public void stopXlRelease() {
+    stopXlRelease(logger)
+  }
+
+  static def stopXlRelease(Logger logger) {
     def url = 'http://localhost:5516'
-    logger.lifecycle("Stopping server at ${url}")
+    logger.lifecycle("Stopping XL Release server at ${url}")
     def http = new RESTClient(url)
     try {
       http.post(path: "/server/shutdown", headers: ['Authorization': 'Basic YWRtaW46YWRtaW4='])

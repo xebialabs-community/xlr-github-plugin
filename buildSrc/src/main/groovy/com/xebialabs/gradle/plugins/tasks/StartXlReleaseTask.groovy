@@ -5,6 +5,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
+import static com.xebialabs.gradle.plugins.tasks.StopXlReleaseTask.waitForUrl
+
 /**
  * Gradle task which starts an XL Release instance with current plugin included.
  */
@@ -16,6 +18,8 @@ class StartXlReleaseTask extends DefaultTask {
   @TaskAction
   @SuppressWarnings("GroovyUnusedDeclaration")
   public void startXlRelease() {
+
+    StopXlReleaseTask.stopXlRelease(logger)
 
     logger.lifecycle("Starting XL Release server ...")
 
@@ -87,7 +91,7 @@ class StartXlReleaseTask extends DefaultTask {
     }
 
     def url = 'http://localhost:5516'
-    StopXlReleaseTask.waitForUrl(url, true, logger)
+    waitForUrl(url, true, logger)
 
     logger.lifecycle("XL Release has started at $url")
   }

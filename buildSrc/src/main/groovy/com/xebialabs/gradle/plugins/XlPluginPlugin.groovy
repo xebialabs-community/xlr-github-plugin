@@ -5,7 +5,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.plugins.BasePlugin
+import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.testing.Test
 
 /**
  * Gradle plugin which is applied to any project which builds a plugin for one of XebiaLabs products.
@@ -23,6 +25,7 @@ class XlPluginPlugin implements Plugin<Project> {
 
     configurePluginVersionTask(project)
     configurePluginPackagingTask(project)
+    configureItestTask(project)
   }
 
   private static void configurePluginPackagingTask(Project project) {
@@ -32,7 +35,7 @@ class XlPluginPlugin implements Plugin<Project> {
       duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
       into(".") {
-        from project.configurations.getByName("distBundle")
+        from project.configurations.getByName("xlPluginBundle")
         from project.tasks.getByName("jar").outputs
       }
     } as Jar
@@ -61,14 +64,35 @@ class XlPluginPlugin implements Plugin<Project> {
     project.tasks.getByName("jar").dependsOn(PLUGIN_VERSION_TASK_NAME)
   }
 
+  private static void configureItestTask(Project project) {
+
+    project.tasks.create("itest", Test).configure {
+      group = JavaBasePlugin.VERIFICATION_GROUP
+      description = "Run the integration tests."
+      reports.junitXml.destination = project.file("${project.buildDir}/itest-results")
+    }
+
+    project.afterEvaluate {
+      def extension = project.extensions.getByType(XlPluginExtension)
+
+      project.tasks.getByName("test").configure {
+        excludes = extension.itestClassPatterns
+      }
+      project.tasks.getByName("itest").configure {
+        includes = extension.itestClassPatterns
+      }
+    }
+  }
+
   private static String configureExtensions(Project p) {
     p.extensions.create("xl-plugin", XlPluginExtension).with {
       project = p
       pluginExtension = "xlp"
+      itestClassPatterns = ["**/*Itest.*", "**/*ItestSuite.*"]
     }
   }
 
   private static def setupDependencyBundling(Project project) {
-    project.configurations.maybeCreate("distBundle")
+    project.configurations.maybeCreate("xlPluginBundle")
   }
 }
