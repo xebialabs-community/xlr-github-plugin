@@ -62,13 +62,14 @@ class XlReleasePluginPlugin implements Plugin<Project> {
       if (!folder.exists() || !folder.isDirectory()) {
         throw new RuntimeException("$xlrHome does not exist or is not a folder")
       }
-      p.dependencies.add(XL_RELEASE_JARS_CONFIGURATION, p.fileTree(dir: "$xlrHome/lib"))
     }
   }
 
   private static def configureConfigurations(Project project) {
-    def allXlrJars = project.configurations.create(XL_RELEASE_JARS_CONFIGURATION)
-    project.configurations.getByName("compile").extendsFrom allXlrJars
+    project.configurations.create(XL_RELEASE_JARS_CONFIGURATION)
+    project.dependencies.add(XL_RELEASE_JARS_CONFIGURATION, project.fileTree(
+        dir: "${project.extensions.findByType(XlReleasePluginExtension).xlReleaseHome}/lib")
+    )
   }
 
   def static configureStartTask(final Project project) {

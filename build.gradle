@@ -16,6 +16,7 @@ plugins {
   id "com.xebialabs.xl-deploy" version "0.2.1"
 }
 apply plugin: XlReleasePluginPlugin
+apply plugin: 'scala'
 
 group 'com.xebialabs.xlrelease.plugins'
 version '0.2-SNAPSHOT'
@@ -26,12 +27,32 @@ dependencies {
     exclude group: 'com.google.code.gson', module: 'gson'
   }
 
+  testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.6.0'
-  testCompile 'junit:junit:4.11'
   testCompile 'org.hamcrest:hamcrest-core:1.3'
   testCompile 'org.hamcrest:hamcrest-library:1.3'
   testCompile 'org.mockito:mockito-core:1.9.5'
+
+  testCompile 'org.scala-lang:scala-library:2.11.6'
+  testCompile 'org.scalatest:scalatest_2.11:2.2.4'
   testCompile 'com.xebialabs.xlrelease:data-generator:0.1-SNAPSHOT'
+}
+
+//configurations.compile.extendsFrom configurations.xlReleaseJars
+//compileScala {
+//  scalaCompileOptions.fork = true
+//  scalaCompileOptions.forkOptions.jvmArgs = ['-XX:MaxPermSize=512m']
+//  scalaCompileOptions.additionalParameters = [
+//      "-feature",
+//      "-language:reflectiveCalls",
+//      "-language:postfixOps"
+//  ]
+//}
+
+configurations.xlReleaseJars.each { File file ->
+  if (!file.name.contains('scala')) {
+    dependencies.add('compile', files(file))
+  }
 }
 
 license {
