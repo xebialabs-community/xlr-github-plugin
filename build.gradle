@@ -53,6 +53,9 @@ dependencies {
   dependencies.add('compile', files(configurations.xlReleaseJars.findAll { it.name.contains(jarNamePart) }))
 }
 
+xlReleasePlugin {
+  useSourcesDirectly = true
+}
 
 license {
   header rootProject.file('src/main/license/xebialabs_community.license')

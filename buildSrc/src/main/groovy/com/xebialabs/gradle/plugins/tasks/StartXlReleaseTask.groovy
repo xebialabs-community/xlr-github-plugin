@@ -5,12 +5,22 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
+import static com.xebialabs.gradle.plugins.XlPluginPlugin.XL_PLUGIN_BUNDLE_CONFIGURATION
+import static com.xebialabs.gradle.plugins.XlReleasePluginPlugin.ADDITIONAL_CLASSPATH_CONFIGURATION
 import static com.xebialabs.gradle.plugins.tasks.StopXlReleaseTask.waitForUrl
 
 /**
  * Gradle task which starts an XL Release instance with current plugin included.
  */
 class StartXlReleaseTask extends DefaultTask {
+
+  /**
+   * If true then original resources from src/main/resources will be added to XL Release classpath
+   * instead of processed ones from build/. This might be handy to quickly change python scripts
+   * without need to rebuild and restart the project.
+   */
+  @Input
+  def useSourcesDirectly
 
   @Input
   def xlReleaseHome
@@ -53,10 +63,28 @@ class StartXlReleaseTask extends DefaultTask {
     ]
     classpath += [
         "${project.buildDir}/classes/test",
-        "${project.buildDir}/classes/main",
-        "${project.buildDir}/resources/test",
-        "${project.buildDir}/resources/main"
+        "${project.buildDir}/classes/main"
     ].findAll { project.file(it).exists() }
+
+    if (useSourcesDirectly) {
+      classpath += [
+          "${project.projectDir}/src/test/resources",
+          "${project.projectDir}/src/main/resources",
+      ].findAll { project.file(it).exists() }
+    } else {
+      classpath += [
+          "${project.buildDir}/resources/test",
+          "${project.buildDir}/resources/main"
+      ].findAll { project.file(it).exists() }
+    }
+
+    project.configurations.findByName(XL_PLUGIN_BUNDLE_CONFIGURATION).each { file ->
+      classpath.add("$file")
+    }
+
+    project.configurations.findByName(ADDITIONAL_CLASSPATH_CONFIGURATION).each { file ->
+      classpath.add("$file")
+    }
 
     logger.debug("Using following classpath to start XL Release: $classpath")
 

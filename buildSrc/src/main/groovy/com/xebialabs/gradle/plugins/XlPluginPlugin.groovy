@@ -15,6 +15,9 @@ import org.gradle.api.tasks.testing.Test
 class XlPluginPlugin implements Plugin<Project> {
 
   public static final String PLUGIN_VERSION_TASK_NAME = "createPluginVersionProperties"
+  public static final String XL_PLUGIN_BUNDLE_CONFIGURATION = "xlPluginBundle"
+  public static final String ITEST_TASK_NAME = "itest"
+  public static final String XL_PLUGIN_EXTENSION = "xlPlugin"
 
   @Override
   void apply(final Project project) {
@@ -35,7 +38,7 @@ class XlPluginPlugin implements Plugin<Project> {
       duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
       into(".") {
-        from project.configurations.getByName("xlPluginBundle")
+        from project.configurations.getByName(XL_PLUGIN_BUNDLE_CONFIGURATION)
         from project.tasks.getByName("jar").outputs
       }
     } as Jar
@@ -66,7 +69,7 @@ class XlPluginPlugin implements Plugin<Project> {
 
   private static void configureItestTask(Project project) {
 
-    project.tasks.create("itest", Test).configure {
+    project.tasks.create(ITEST_TASK_NAME, Test).configure {
       group = JavaBasePlugin.VERIFICATION_GROUP
       description = "Run the integration tests."
       reports.junitXml.destination = project.file("${project.buildDir}/itest-results")
@@ -78,14 +81,14 @@ class XlPluginPlugin implements Plugin<Project> {
       project.tasks.getByName("test").configure {
         excludes = extension.itestClassPatterns
       }
-      project.tasks.getByName("itest").configure {
+      project.tasks.getByName(ITEST_TASK_NAME).configure {
         includes = extension.itestClassPatterns
       }
     }
   }
 
   private static String configureExtensions(Project p) {
-    p.extensions.create("xl-plugin", XlPluginExtension).with {
+    p.extensions.create(XL_PLUGIN_EXTENSION, XlPluginExtension).with {
       project = p
       pluginExtension = "xlp"
       itestClassPatterns = ["**/*Itest.*", "**/*ItestSuite.*"]
@@ -93,6 +96,6 @@ class XlPluginPlugin implements Plugin<Project> {
   }
 
   private static def setupDependencyBundling(Project project) {
-    project.configurations.maybeCreate("xlPluginBundle")
+    project.configurations.maybeCreate(XL_PLUGIN_BUNDLE_CONFIGURATION)
   }
 }

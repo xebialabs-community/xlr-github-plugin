@@ -13,6 +13,8 @@ class XlReleasePluginPlugin implements Plugin<Project> {
   public static final String START_TASK_NAME = 'start'
   public static final String STOP_TASK_NAME = 'stop'
   public static final String XL_RELEASE_JARS_CONFIGURATION = 'xlReleaseJars'
+  public static final String ADDITIONAL_CLASSPATH_CONFIGURATION = 'xlReleaseAdditionalClasspath'
+  public static final String XL_RELEASE_PLUGIN_EXTENSION = "xlReleasePlugin"
 
   @Override
   void apply(final Project project) {
@@ -30,7 +32,7 @@ class XlReleasePluginPlugin implements Plugin<Project> {
   }
 
   private static def configureExtensions(Project p) {
-    p.extensions.create("xl-release-plugin", XlReleasePluginExtension).with {
+    p.extensions.create(XL_RELEASE_PLUGIN_EXTENSION, XlReleasePluginExtension).with {
       project = p
 
       xlReleaseLicense = { ->
@@ -70,6 +72,7 @@ class XlReleasePluginPlugin implements Plugin<Project> {
     project.dependencies.add(XL_RELEASE_JARS_CONFIGURATION, project.fileTree(
         dir: "${project.extensions.findByType(XlReleasePluginExtension).xlReleaseHome}/lib")
     )
+    project.configurations.create(ADDITIONAL_CLASSPATH_CONFIGURATION)
   }
 
   def static configureStartTask(final Project project) {
@@ -78,6 +81,7 @@ class XlReleasePluginPlugin implements Plugin<Project> {
       description = "Starts XL Release server with current plugin included."
       dependsOn(['classes'])
       xlReleaseHome = { -> project.extensions.findByType(XlReleasePluginExtension).xlReleaseHome }
+      useSourcesDirectly = { -> project.extensions.findByType(XlReleasePluginExtension).useSourcesDirectly }
     }
   }
 
