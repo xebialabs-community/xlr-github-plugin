@@ -4,4 +4,5 @@ repositories {
 }
 dependencies {
   compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
+  compile 'org.apache.httpcomponents:httpclient:4.3.3'
 }
