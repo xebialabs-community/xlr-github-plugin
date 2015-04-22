@@ -5,6 +5,7 @@
  */
 package com.xebialabs.xlrelease.plugin.github;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 import com.google.common.base.Predicate;
 import com.google.common.io.Resources;
@@ -57,7 +58,7 @@ public class GitHubUtils {
             @Override
             public boolean apply(ConfigurationItem gitRepository) {
                 String url = gitRepository.getProperty("url");
-                return url != null && url.matches(".*[\\W]" + repositoryFullName + "($|\\W.*)");
+                return urlMatchesFullRepositoryName(url, repositoryFullName);
             }
         });
         if (matching.isEmpty()) {
@@ -98,6 +99,11 @@ public class GitHubUtils {
             throw new RuntimeException(format("Could not find %s in classpath", resource));
         }
         return Resources.toString(resourceUrl, Charsets.UTF_8);
+    }
+
+    @VisibleForTesting
+    static boolean urlMatchesFullRepositoryName(String url, String repositoryFullName) {
+        return url != null && url.matches(".*[\\W]" + repositoryFullName + "($|[^\\w-].*)");
     }
 
 }
