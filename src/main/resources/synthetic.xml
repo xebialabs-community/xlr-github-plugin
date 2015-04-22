@@ -9,6 +9,7 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
+<!--
     <type type="github.UpdateContent" extends="xlrelease.PythonScript">
         <property name="gitRepository" category="input" referenced-type="git.Repository" kind="ci"/>
         <property name="filePath" category="input"/>
@@ -17,5 +18,6 @@
 
         <property name="commitId" required="false" category="output" description="ID of commit in which content was updated"/>
     </type>
+-->
 
 </synthetic>
