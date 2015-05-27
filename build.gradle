@@ -19,7 +19,7 @@ apply plugin: XlReleasePluginPlugin
 apply plugin: 'scala'
 
 group 'com.xebialabs.xlrelease.plugins'
-version '0.2-SNAPSHOT'
+version '0.2.0'
 
 dependencies {
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
