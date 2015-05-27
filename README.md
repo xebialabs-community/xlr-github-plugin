@@ -68,7 +68,7 @@ To install this plugin you need to put two jar files into `XL_RELEASE_SERVER_HOM
 
 To configure the pull request squashing you first need to add the web hook in your GitHub repository (or repositories).
 
-1. Go to https://github.com/\<user-or-organization\>/\<repository\>/settings/hooks/new
+1. Go to https://github.com/{user-or-organization}/{repository}/settings/hooks/new
 2. Paste the payload URL: `http(s)://<username>:<password>@<your-xl-release-instance-host>:<port>/<xl-release-context>/api/extension/github/pr-merge-hook`
 
 3. Select *Let me select individual events* and choose only *Issue comment*.
