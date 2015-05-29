@@ -61,7 +61,7 @@ class XlPluginPlugin implements Plugin<Project> {
       description = "Create a plugin-version.properties file with plugin metadata."
       dependsOn("processResources")
       plugin = { -> project.name }
-      version = { -> project.version }
+      version = { -> project.version.toString() }
       pluginVersionFile = project.file("${project.sourceSets.main.output.classesDir}/plugin-version.properties")
     }
     project.tasks.getByName("jar").dependsOn(PLUGIN_VERSION_TASK_NAME)

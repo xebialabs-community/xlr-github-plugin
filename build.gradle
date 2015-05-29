@@ -14,12 +14,18 @@ buildscript {
 plugins {
   id "com.github.hierynomus.license" version "0.11.0"
   id "com.xebialabs.xl-deploy" version "0.2.1"
+  id 'nebula.nebula-release' version '2.2.5'
 }
 apply plugin: XlReleasePluginPlugin
 apply plugin: 'scala'
 
 group 'com.xebialabs.xlrelease.plugins'
-version '0.2.1-SNAPSHOT'
+
+release {
+  defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
+}
+tasks.release.dependsOn tasks.deploy
+tasks.releaseCheck.dependsOn tasks.clean
 
 dependencies {
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'

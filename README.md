@@ -92,3 +92,13 @@ To debug what's happening in XL Release you can go there to *Releases*, filter b
 ## Deploying ##
 
 This plugin makes use of [Gradle XL Deploy plugin](https://github.com/xebialabs-community/gradle-xld-plugin) so you can easily deploy it to your XL Release instance. The deployment details are specified in `gradle.properties` file: by default it uses an XL Deploy instance running on localhost, but you can override these values in your `~/.gradle/gradle.properties`.
+
+## Releasing ##
+
+This project uses the [nebula-release-plugin](https://github.com/nebula-plugins/nebula-release-plugin), which in turn uses [gradle-git plugin](https://github.com/ajoberstar/gradle-git). So you can release a new version if this project using following commands:
+
+* to release a new patch: `./gradlew final -Prelease.scope=patch`
+* to release a new minor release: `./gradlew final`
+* to release a new major release: `./gradlew final -Prelease.scope=major`
+
+By default when you build the project it builds a snapshot version of next (to be released) minor release. You can get rid of `-SNAPSHOT` in the version by adding command-line parameter `-Prelease.stage=final`. Note that your Git project must be clean to be able to set version to `final` stage.
