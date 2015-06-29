@@ -20,10 +20,13 @@ def handle_request(json_dict):
     try:
         json_string = Gson().toJson(json_dict)
         event = GsonUtils.fromJson(json_string, IssueCommentPayload)
-    except StandardError:
-        _, e, _ = sys.exc_info()
-        logger.warn("Could not parse payload as an issue comment, check your GitHub Webhook "
-                    "configuration. Error: %s. Payload:\n%s" % (e, json_string))
+    except:
+        e = sys.exc_info()[1]
+        msg = ("Could not parse payload as an issue comment, check your GitHub Webhook "
+               "configuration. Error: %s. Payload:\n%s" % (e, json_string))
+        logger.warn(msg)
+        print >> sys.stderr, msg
+        response.statusCode = 400
         return
 
     if not event.getIssue() or not event.getIssue().getPullRequest() or not event.getIssue().getPullRequest().getUrl():

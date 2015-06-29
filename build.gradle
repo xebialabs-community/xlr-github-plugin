@@ -45,23 +45,10 @@ dependencies {
   testCompile 'org.scala-lang:scala-library:2.11.6'
   testCompile 'org.scalatest:scalatest_2.11:2.2.4'
   testCompile 'com.xebialabs.xlrelease:data-generator:0.1-SNAPSHOT'
-}
 
-[
-    'xl-release-server-',
-    'server-',
-    'udm-plugin-api-',
-    'xl-repository-api-',
-    'swagger-',
-    'jaxrs-api-',
-    'guava-',
-    'config-',
-    'jgit-',
-    'jsch-',
-    'slf4j-', 'logback-'
-].each { jarNamePart ->
-  dependencies.add('compile', files(configurations.xlReleaseJars.findAll { it.name.contains(jarNamePart) }))
+  testCompile 'com.xebialabs.xlrelease:server-test:4.7.0-SNAPSHOT'
 }
+configurations.compile.extendsFrom configurations.xlReleaseJars
 
 xlReleasePlugin {
   useSourcesDirectly = true
@@ -100,4 +87,11 @@ tasks.deploy.configure {
 repositories {
   mavenLocal()
   mavenCentral()
+}
+
+def xlrLicense = project.hasProperty('xlReleaseLicense') ? project.property('xlReleaseLicense') : null
+test {
+  maxHeapSize = "1g"
+  jvmArgs "-XX:MaxPermSize=256m"
+  systemProperty 'xlReleaseLicense', xlrLicense
 }
