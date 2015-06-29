@@ -64,6 +64,7 @@ class XlReleasePluginPlugin implements Plugin<Project> {
       if (!folder.exists() || !folder.isDirectory()) {
         throw new RuntimeException("$xlrHome does not exist or is not a folder")
       }
+      p.logger.lifecycle("Using XL Release libraries from $folder")
     }
   }
 

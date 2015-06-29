@@ -49,6 +49,7 @@ dependencies {
 
 [
     'xl-release-server-',
+    'server-',
     'udm-plugin-api-',
     'xl-repository-api-',
     'swagger-',
