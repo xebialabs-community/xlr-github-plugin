@@ -26,6 +26,9 @@ release {
 }
 tasks.release.dependsOn tasks.deploy
 tasks.releaseCheck.dependsOn tasks.clean
+if (!project.hasProperty('release.scope')) {
+  project.ext['release.scope'] = 'patch'
+}
 
 dependencies {
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
