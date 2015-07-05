@@ -29,8 +29,8 @@ trait BaseXLReleaseTestServerTest extends FunSpecLike with Matchers with BeforeA
       val bootstrapper = new XLReleaseTestBootstrapper(tempDir, licenseFile)
       server = bootstrapper.start
       Runtime.getRuntime.addShutdownHook(new Thread(new Runnable() {
-        def run {
-          server.stop
+        def run() {
+          server.stop()
           Path(tempDir).deleteRecursively(force = true, continueOnFailure = true)
         }
       }))

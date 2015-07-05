@@ -44,7 +44,6 @@ dependencies {
 
   testCompile 'org.scala-lang:scala-library:2.11.6'
   testCompile 'org.scalatest:scalatest_2.11:2.2.4'
-  testCompile 'com.xebialabs.xlrelease:data-generator:0.1-SNAPSHOT'
 
   testCompile 'com.xebialabs.xlrelease:server-test:4.7.0-SNAPSHOT'
 }
@@ -89,9 +88,15 @@ repositories {
   mavenCentral()
 }
 
-def xlrLicense = project.hasProperty('xlReleaseLicense') ? project.property('xlReleaseLicense') : null
 test {
   maxHeapSize = "1g"
   jvmArgs "-XX:MaxPermSize=256m"
-  systemProperty 'xlReleaseLicense', xlrLicense
+  systemProperty 'xlReleaseLicense', propertyOrNull('xlReleaseLicense')
+  systemProperty 'github.repository', propertyOrNull('xlr-github-plugin.itest.github.repository')
+  systemProperty 'github.username', propertyOrNull('xlr-github-plugin.itest.github.username')
+  systemProperty 'github.password', propertyOrNull('xlr-github-plugin.itest.github.password')
+}
+
+private def propertyOrNull(name) {
+  project.hasProperty(name) ? project.property(name) : null
 }

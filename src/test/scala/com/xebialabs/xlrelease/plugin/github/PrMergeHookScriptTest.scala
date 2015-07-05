@@ -1,8 +1,5 @@
 package com.xebialabs.xlrelease.plugin.github
 
-import com.xebialabs.xlplatform.endpoints.actors.ScriptDone
-import com.xebialabs.xlrelease.test.script.ScriptTestService
-import org.assertj.core.api.Assertions._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
