@@ -8,7 +8,7 @@ import com.xebialabs.xlrelease.domain.Configuration
 import com.xebialabs.xlrelease.domain.status.TaskStatus._
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
-import org.eclipse.egit.github.core.service.{CommitService, ContentsService}
+import org.eclipse.egit.github.core.service.CommitService
 import org.eclipse.jgit.util.Base64
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -51,7 +51,8 @@ class UpdateContentTaskTest extends BaseXLReleaseTestServerTest {
         "branch" -> "master",
         "filePath" -> filePath,
         "commitMessage" -> commitMessage,
-        "contentScript" -> s"""return "$timestamp""""
+        "regex" -> "^.*$",
+        "replacement" -> s"$timestamp"
       )
 
       val task = newCustomScript("github.UpdateContent")
@@ -64,7 +65,8 @@ class UpdateContentTaskTest extends BaseXLReleaseTestServerTest {
           newPhase.withTasks(task).build)
         .build
 
-      server.getScriptTestService.executeCustomScriptTask(task)
+      val output = server.getScriptTestService.executeCustomScriptTask(task)
+      println(output)
 
       val commitId: String = task.getPythonScript.getProperty("commitId")
       commitId should not be null

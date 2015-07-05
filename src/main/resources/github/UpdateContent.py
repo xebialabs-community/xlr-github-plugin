@@ -4,5 +4,27 @@
 # FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
 #
 
-print "Hello, World!"
-commitId = "1a2b3c"
+from org.eclipse.egit.github.core import RepositoryId
+from org.eclipse.egit.github.core.client import GitHubClient
+from com.xebialabs.xlrelease.plugin.github import ContentsService
+from org.eclipse.jgit.util import Base64
+from java.lang import String
+from java.util.regex import Pattern
+
+github_client = GitHubClient().setCredentials(gitRepository['username'], gitRepository['password'])
+repository_id = RepositoryId.createFromUrl(gitRepository['url'].replace('.git', ''))
+contents_service = ContentsService(github_client)
+
+contents_object = contents_service.getContents(repository_id, filePath, branch).get(0)
+current_contents_bytes = Base64.decode(contents_object.getContent())
+current_contents = String(current_contents_bytes, "UTF-8")
+current_sha = contents_object.getSha()
+
+flags = Pattern.MULTILINE ^ Pattern.DOTALL
+new_contents = Pattern.compile(regex, flags).matcher(current_contents).replaceAll(replacement)
+
+print "Replacing contents of %s/%s from:\n%s\nto:\n%s" % (repository_id, filePath, current_contents, new_contents)
+
+contents_object.setContent(Base64.encodeBytes(String(new_contents).getBytes("UTF-8")))
+commit = contents_service.updateContents(repository_id, contents_object, commitMessage, branch)
+commitId = commit.getSha()

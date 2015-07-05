@@ -73,8 +73,7 @@ public class GitHubUtils {
     }
 
     public static RepositoryId createRepositoryId(String repositoryFullName) {
-        String[] usernameAndRepo = repositoryFullName.split("/");
-        return new RepositoryId(usernameAndRepo[0], usernameAndRepo[1]);
+        return RepositoryId.createFromId(repositoryFullName);
     }
 
     public static String bootstrapPRMergerTemplate() throws IOException {

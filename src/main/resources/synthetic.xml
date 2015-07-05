@@ -13,7 +13,8 @@
         <property name="gitRepository" category="input" referenced-type="git.Repository" kind="ci"/>
         <property name="branch" category="input" default="master"/>
         <property name="filePath" category="input"/>
-        <property name="contentScript" size="large" category="input"/>
+        <property name="regex" category="input"/>
+        <property name="replacement" category="input"/>
         <property name="commitMessage" category="input"/>
 
         <property name="commitId" required="false" category="output" description="ID of commit in which content was updated"/>
