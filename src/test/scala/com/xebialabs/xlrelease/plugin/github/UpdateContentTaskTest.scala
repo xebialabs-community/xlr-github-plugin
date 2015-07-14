@@ -6,22 +6,26 @@
 package com.xebialabs.xlrelease.plugin.github
 
 import com.xebialabs.deployit.plugin.api.reflect.Type
+import com.xebialabs.deployit.repository.RepositoryService
+import com.xebialabs.xlrelease.XLReleaseIntegrationScalaTest
 import com.xebialabs.xlrelease.builder.PhaseBuilder._
 import com.xebialabs.xlrelease.builder.ReleaseBuilder._
 import com.xebialabs.xlrelease.builder.TaskBuilder._
 import com.xebialabs.xlrelease.domain.Configuration
 import com.xebialabs.xlrelease.domain.status.TaskStatus._
+import com.xebialabs.xlrelease.script.ScriptTestService
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.CommitService
 import org.eclipse.jgit.util.Base64
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import org.springframework.beans.factory.annotation.Autowired
 
 import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
-class UpdateContentTaskTest extends BaseXLReleaseTestServerTest {
+class UpdateContentTaskTest extends XLReleaseIntegrationScalaTest {
 
   private var gitRepositoryCi: Configuration = _
 
@@ -32,19 +36,25 @@ class UpdateContentTaskTest extends BaseXLReleaseTestServerTest {
   val githubClient = new GitHubClient().setCredentials(testRepoUsername, testRepoPassword)
   val repositoryId = RepositoryId.createFromUrl(testRepoUrl.replace(".git", ""))
 
+  @Autowired
+  private var scriptTestService: ScriptTestService = _
+
+  @Autowired
+  private var repositoryService: RepositoryService = _
+
   override def beforeAll(): Unit = {
     super.beforeAll()
-    val configuration: Configuration = Type.valueOf("git.Repository").getDescriptor.newInstance("Configuration/Custom/GitRepo")
+    val configuration: Configuration = Type.valueOf("git.Repository").getDescriptor.newInstance("Configuration/GitRepo")
     configuration.setProperty("title", "GitTestRepo")
     configuration.setProperty("url", testRepoUrl)
     configuration.setProperty("username", testRepoUsername)
     configuration.setProperty("password", testRepoPassword)
-    server.getRepositoryService.create(configuration)
-    gitRepositoryCi = server.getRepositoryService.read(configuration.getId)
+    repositoryService.create(configuration)
+    gitRepositoryCi = repositoryService.read(configuration.getId)
   }
 
 
-  describe("github.UpdateContent custom script task") {
+  describe("github.UpdateContent task") {
 
     it("should set content of a file in GitHub") {
 
@@ -70,7 +80,7 @@ class UpdateContentTaskTest extends BaseXLReleaseTestServerTest {
           newPhase.withTasks(task).build)
         .build
 
-      val output = server.getScriptTestService.executeCustomScriptTask(task)
+      val output = scriptTestService.executeCustomScriptTask(task)
       println(output)
 
       val commitId: String = task.getPythonScript.getProperty("commitId")
