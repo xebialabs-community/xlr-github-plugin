@@ -91,12 +91,21 @@ repositories {
 test {
   maxHeapSize = "1g"
   jvmArgs "-XX:MaxPermSize=256m"
-  systemProperty 'xl.license.location', propertyOrNull('xlReleaseLicense')
+  systemProperty 'xl.license.location', propertyOrFail('xlReleaseLicense',
+      'Please specify XL Release license location using ' +
+          '"-PxlReleaseLicense=/path/to/xl-release-license.lic" or in ~/.gradle/gradle.properties')
   systemProperty 'github.repository', propertyOrNull('xlr-github-plugin.itest.github.repository')
   systemProperty 'github.username', propertyOrNull('xlr-github-plugin.itest.github.username')
   systemProperty 'github.password', propertyOrNull('xlr-github-plugin.itest.github.password')
 }
 
-private def propertyOrNull(name) {
+private def propertyOrNull(String name) {
   project.hasProperty(name) ? project.property(name) : null
+}
+
+private def propertyOrFail(String name, String message) {
+  if (!project.hasProperty(name)) {
+    throw new RuntimeException(message)
+  }
+  project.property(name)
 }
