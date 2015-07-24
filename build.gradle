@@ -21,6 +21,11 @@ apply plugin: 'scala'
 
 group 'com.xebialabs.xlrelease.plugins'
 
+def xlrVersion = '4.8.0-SNAPSHOT'
+def xlrsHome = propertyOrFail('xlReleasesHome',
+    'Please specify location of XL Release versions on you disk using Gradle property "xlReleasesHome"')
+project.setProperty('xlReleaseHome', "$xlrsHome/xl-release-$xlrVersion-server")
+
 release {
   defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
 }
@@ -45,7 +50,7 @@ dependencies {
   testCompile 'org.scala-lang:scala-library:2.11.6'
   testCompile 'org.scalatest:scalatest_2.11:2.2.4'
 
-  testCompile 'com.xebialabs.xlrelease:server-test-kit:4.7.0-SNAPSHOT'
+  testCompile "com.xebialabs.xlrelease:server-test-kit:$xlrVersion"
 }
 configurations.compile.extendsFrom configurations.xlReleaseJars
 
