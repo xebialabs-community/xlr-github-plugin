@@ -10,6 +10,8 @@
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
     <type type="github.UpdateContent" extends="xlrelease.PythonScript">
+        <property name="iconLocation" default="github/github.png" hidden="true" />
+
         <property name="gitRepository" category="input" referenced-type="git.Repository" kind="ci"/>
         <property name="branch" category="input" default="master"/>
         <property name="filePath" category="input"/>
