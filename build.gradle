@@ -20,10 +20,14 @@ plugins {
 
 group 'com.xebialabs.xlrelease.plugins'
 
-def xlrVersion = '4.7.2'
-def xlrsHome = propertyOrFail('xlReleasesHome',
-    'Please specify location of XL Release versions on you disk using Gradle property "xlReleasesHome"')
-project.setProperty('xlReleaseHome', "$xlrsHome/xl-release-$xlrVersion-server")
+if (!project.hasProperty('xlReleaseHome')) {
+  def xlrVersion = '4.7.2'
+  def xlrsHome = propertyOrFail('xlReleasesHome',
+          'Please specify location of XL Release versions on you disk using Gradle property "xlReleasesHome" ' +
+                  'or specific version using "xlReleaseHome"')
+  project.setProperty('xlReleaseHome', "$xlrsHome/xl-release-$xlrVersion-server")
+}
+def xlrHome = project.property('xlReleaseHome')
 
 apply plugin: XlReleasePluginPlugin
 apply plugin: 'scala'
@@ -55,7 +59,7 @@ dependencies {
   testCompile 'org.scala-lang:scala-library:2.11.6'
   testCompile 'org.scalatest:scalatest_2.11:2.2.4'
 
-  testCompile files("$xlrsHome/xl-release-$xlrVersion-server/server-test-kit-${xlrVersion}.jar")
+  testCompile files("$xlrHome/server-test-kit-*.jar")
 }
 configurations.compile.extendsFrom configurations.xlReleaseJars
 
