@@ -2,18 +2,14 @@ buildscript {
   repositories {
     jcenter()
     maven {
-      url "http://www.knopflerfish.org/maven2/"
-    }
-    maven {
       url "https://dist.xebialabs.com/public/maven2/"
     }
   }
 }
 plugins {
-  id "com.github.hierynomus.license" version "0.11.0"
+  id "com.github.hierynomus.license" version "0.14.0"
   id "com.xebialabs.xl-deploy" version "0.2.1"
-  id 'nebula.nebula-release' version '2.2.5'
-//  id "com.xebialabs.xldp" version "1.0.4"
+  id 'nebula.release' version '6.0.0'
 }
 
 group 'com.xebialabs.xlrelease.plugins'
@@ -29,9 +25,6 @@ def xlrHome = project.property('xlReleaseHome')
 
 apply plugin: 'scala'
 
-release {
-  defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
-}
 tasks.release.dependsOn tasks.deploy
 tasks.releaseCheck.dependsOn tasks.clean
 if (!project.hasProperty('release.scope')) {
