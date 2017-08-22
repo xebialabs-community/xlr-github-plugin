@@ -1,34 +1,33 @@
-buildscript {
-  repositories {
-    jcenter()
-    maven {
-      url "https://dist.xebialabs.com/public/maven2/"
-    }
-  }
-}
 plugins {
   id "com.github.hierynomus.license" version "0.14.0"
-  id "com.xebialabs.xl-deploy" version "0.2.1"
   id 'nebula.release' version '6.0.0'
+  id "com.xebialabs.xl.docker" version "1.1.0"
 }
 
 group 'com.xebialabs.xlrelease.plugins'
 
-if (!project.hasProperty('xlReleaseHome')) {
-  def xlrVersion = '4.7.2'
-  def xlrsHome = propertyOrFail('xlReleasesHome',
-          'Please specify location of XL Release versions on you disk using Gradle property "xlReleasesHome" ' +
-                  'or specific version using "xlReleaseHome"')
-  project.setProperty('xlReleaseHome', "$xlrsHome/xl-release-$xlrVersion-server")
-}
-def xlrHome = project.property('xlReleaseHome')
-
 apply plugin: 'scala'
 
-tasks.release.dependsOn tasks.deploy
-tasks.releaseCheck.dependsOn tasks.clean
+xlDocker {
+  compileImage = 'xebialabs/xlr_dev_compile'
+  compileVersion = 'v7.1.0.1'
+  runImage = 'xebialabs/xlr_dev_run'
+  runVersion = 'v7.1.0.1'
+  runPortMapping = '15516:5516'
+}
+
+def apiVersion = '2017.5.0'
+
 if (!project.hasProperty('release.scope')) {
   project.ext['release.scope'] = 'patch'
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven {
+    url "https://dist.xebialabs.com/public/maven2/"
+  }
 }
 
 dependencies {
@@ -43,7 +42,11 @@ dependencies {
   testCompile 'org.scala-lang:scala-library:2.11.6'
   testCompile 'org.scalatest:scalatest_2.11:2.2.4'
 
-  testCompile files("$xlrHome/server-test-kit-*.jar")
+  testCompile 'com.xebialabs.deployit:udm-plugin-api:${apiVersion}'
+  testCompile('com.xebialabs.xl-platform:xl-repository-api:${apiVersion}') {
+    transitive = false
+  }
+  compile files("$xlReleaseHome/lib/xl-script-engine-${apiVersion}.jar")
 }
 
 license {
@@ -52,53 +55,7 @@ license {
   excludes(["**/*.json", "**/*.conf", "**/bootstrap/*.py"])
 }
 
-task sourcesJar(type: Jar) {
-  from sourceSets.main.allSource
-  classifier = 'sources'
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.getDestinationDir()
-}
-artifacts {
-  archives sourcesJar
-  archives javadocJar
-}
-
-xldeploy {
-  xldUrl = project.property('xlr-github-plugin.xldeploy.host')
-  xldUsername = project.property('xlr-github-plugin.xldeploy.username')
-  xldPassword = project.property('xlr-github-plugin.xldeploy.password')
-  xldEnvironmentId = project.property('xlr-github-plugin.xldeploy.environment')
-}
-tasks.deploy.configure {
-  deletePreviouslyDeployedDar = true
-  generateDeployedOnUpgrade = true
-}
-
-repositories {
-  mavenLocal()
-  mavenCentral()
-}
-
 test {
   maxHeapSize = "1g"
   jvmArgs "-XX:MaxPermSize=256m"
-  systemProperty 'xl.license.location', propertyOrFail('xlReleaseLicense',
-      'Please specify XL Release license location using ' +
-          '"-PxlReleaseLicense=/path/to/xl-release-license.lic" or in ~/.gradle/gradle.properties')
-  systemProperty 'github.repository', propertyOrNull('xlr-github-plugin.itest.github.repository')
-  systemProperty 'github.username', propertyOrNull('xlr-github-plugin.itest.github.username')
-  systemProperty 'github.password', propertyOrNull('xlr-github-plugin.itest.github.password')
-}
-
-private def propertyOrNull(String name) {
-  project.hasProperty(name) ? project.property(name) : null
-}
-
-private def propertyOrFail(String name, String message) {
-  if (!project.hasProperty(name)) {
-    throw new RuntimeException(message)
-  }
-  project.property(name)
 }
