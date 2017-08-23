@@ -17,8 +17,8 @@ This plugin adds a library and several helper methods which let you work with Gi
 
 [xlr-github-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-github-plugin.svg?branch=master
 [xlr-github-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-github-plugin
-[xlr-license-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
-[xlr-license-plugin-license-url]: https://opensource.org/licenses/MIT
+[xlr-github-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
+[xlr-github-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-github-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-github-plugin/total.svg
 
  
