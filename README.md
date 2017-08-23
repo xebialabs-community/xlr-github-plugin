@@ -7,7 +7,15 @@ The `xlr-github-plugin` is an [XL Release](https://docs.xebialabs.com/xl-release
 
 ## Overview ##
 
-This plugin adds a library and several helper methods which let you work with GitHub API using Script tasks. 
+This plugin adds a library and several helper methods which let you work with GitHub API using Script tasks.
+
+### CI status ###
+
+[![Github All Releases][xlr-github-plugin-downloads-image] ]()
+
+[xlr-github-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-github-plugin/total.svg
+
+ 
 
 ### Usage of GitHub API ###
 
