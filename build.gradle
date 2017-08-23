@@ -6,8 +6,6 @@ plugins {
 
 group 'com.xebialabs.xlrelease.plugins'
 
-apply plugin: 'scala'
-
 xlDocker {
   compileImage = 'xebialabs/xlr_dev_compile'
   compileVersion = 'v7.1.0.1'
@@ -16,8 +14,6 @@ xlDocker {
   runPortMapping = '15516:5516'
 }
 
-def apiVersion = '2017.5.0'
-
 if (!project.hasProperty('release.scope')) {
   project.ext['release.scope'] = 'patch'
 }
@@ -25,30 +21,10 @@ if (!project.hasProperty('release.scope')) {
 repositories {
   mavenLocal()
   mavenCentral()
-  maven {
-    url "https://dist.xebialabs.com/public/maven2/"
-  }
 }
 
 dependencies {
   compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
-
-  testCompile 'junit:junit:4.12'
-  testCompile 'org.assertj:assertj-core:1.6.0'
-  testCompile 'org.eclipse.jgit:org.eclipse.jgit:4.0.0.201506090130-r'
-  testCompile 'org.hamcrest:hamcrest-core:1.3'
-  testCompile 'org.hamcrest:hamcrest-library:1.3'
-  testCompile 'org.mockito:mockito-core:1.9.5'
-
-  testCompile 'org.scala-lang:scala-library:2.11.6'
-  testCompile 'org.scalatest:scalatest_2.11:2.2.4'
-  testCompile 'org.springframework:spring-beans:4.3.7.RELEASE'
-
-  testCompile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
-  testCompile("com.xebialabs.xl-platform:xl-repository-api:$apiVersion") {
-    transitive = false
-  }
-  compile files("$xlReleaseHome/lib/xl-script-engine-${apiVersion}.jar", "$xlReleaseHome/lib/xlr-domain-7.1.0.jar")
 }
 
 license {
@@ -56,10 +32,4 @@ license {
   strictCheck false
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'XEBIALABS'
-}
-
-
-test {
-  maxHeapSize = "1g"
-  jvmArgs "-XX:MaxPermSize=256m"
 }
