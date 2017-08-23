@@ -12,12 +12,15 @@ This plugin adds a library and several helper methods which let you work with Gi
 ### CI status ###
 
 [![Build Status][xlr-github-plugin-travis-image] ][xlr-github-plugin-travis-url]
+[![Codacy][xlr-github-plugin-codacy-image] ][xlr-github-plugin-codacy-url]
 [![Code Climate][xlr-github-plugin-code-climate-image] ][xlr-github-plugin-code-climate-url]
 [![License: MIT][xlr-github-plugin-license-image] ][xlr-github-plugin-license-url]
 [![Github All Releases][xlr-github-plugin-downloads-image] ]()
 
 [xlr-github-plugin-travis-image]: https://travis-ci.org/xebialabs-community/xlr-github-plugin.svg?branch=master
 [xlr-github-plugin-travis-url]: https://travis-ci.org/xebialabs-community/xlr-github-plugin
+[xlr-github-plugin-codacy-image]: https://api.codacy.com/project/badge/Grade/d45f829ce3c1462a867f12ef06500865
+[xlr-github-plugin-codacy-url]: https://www.codacy.com/app/joris-dewinne/xlr-github-plugin
 [xlr-github-plugin-code-climate-image]: https://codeclimate.com/github/xebialabs-community/xlr-github-plugin/badges/gpa.svg
 [xlr-github-plugin-code-climate-url]: https://codeclimate.com/github/xebialabs-community/xlr-github-plugin
 [xlr-github-plugin-license-image]: https://img.shields.io/badge/License-MIT-yellow.svg
