@@ -6,6 +6,11 @@ plugins {
 
 group 'com.xebialabs.xlrelease.plugins'
 
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
 xlDocker {
   compileImage = 'xebialabs/xlr_dev_compile'
   compileVersion = 'v7.1.0.1'
