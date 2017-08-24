@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-  compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
+  compile group: 'org.eclipse.mylyn.github', name: 'org.eclipse.egit.github.core', version: '2.1.5'
 }
 
 license {
