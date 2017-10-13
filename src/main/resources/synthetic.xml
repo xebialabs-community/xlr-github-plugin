@@ -14,6 +14,19 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
+    <type type="github.CreateRepository" extends="xlrelease.PythonScript">
+        <property name="iconLocation" default="github/github.png" hidden="true" />
+
+        <property name="user" category="input" />
+        <property name="password" category="input" password="true" />
+        <property name="organization" category="input" required="false" />
+        <property name="repositoryName" category="input" />
+
+        <property name="repositoryId" category="output" />
+
+    </type>
+
+
     <type type="github.UpdateContent" extends="xlrelease.PythonScript">
         <property name="iconLocation" default="github/github.png" hidden="true" />
 
