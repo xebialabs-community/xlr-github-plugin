@@ -68,10 +68,6 @@ Restart the XL Release server after installing the JAR files.
 
 ### Development
 
-#### Deploying
-
-This plugin makes use of [Gradle XL Deploy plugin](https://github.com/xebialabs-community/gradle-xld-plugin) so you can easily deploy it to your XL Release instance. The deployment details are specified in `gradle.properties` file: by default it uses an XL Deploy instance running on localhost, but you can override these values in your `~/.gradle/gradle.properties`.
-
 #### Releasing
 
 This project uses the [nebula-release-plugin](https://github.com/nebula-plugins/nebula-release-plugin), which in turn uses [gradle-git plugin](https://github.com/ajoberstar/gradle-git). So you can release a new version if this project using following commands:
