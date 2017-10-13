@@ -26,12 +26,10 @@ See the [XL Release reference manual](https://docs.xebialabs.com/xl-release) for
 
 The `xlr-github-plugin` is an [XL Release](https://docs.xebialabs.com/xl-release/index.html) plugin that allows you to integrate with GitHub.
 
-This plugin adds a library and several helper methods which let you work with GitHub API using Script tasks.
-
 ## Requirements
 
-* 	org.eclipse.egit.github.core-2.1.5.jar
-*  gson-1.6.jar
+* org.eclipse.egit.github.core-2.1.5.jar
+* gson-1.6.jar
 
 **NOTE**: this plugin depends on the `xlr-git-plugin` which is shipped in standard XL Release distribution.
 
@@ -39,11 +37,12 @@ This plugin adds a library and several helper methods which let you work with Gi
 
 ### Building
 
-To build this project you need an unpacked instance of XL Release server on your development machine. You have to either specify it in your `~/.gradle/gradle.properties`:
+You can use the gradle wrapper to build the plugin.
 
-    xlReleaseHome=/path/to/xl/release/server
+```
+./gradlew clean assemble
 
-or when running a gradle task: `./gradlew build -PxlReleaseHome=/path/to/xl/release/server`
+```
 
 ### Installing
 
@@ -51,7 +50,7 @@ To install this plugin you need to put two jar files into `XL_RELEASE_SERVER_HOM
 
 * `xlr-github-plugin-<version>.jar` (you can find it in `xlr-github-plugin/build/libs/` once you build it),
 * [`org.eclipse.egit.github.core-2.1.5.jar`](http://central.maven.org/maven2/org/eclipse/mylyn/github/org.eclipse.egit.github.core/2.1.5/org.eclipse.egit.github.core-2.1.5.jar),
-*  [`gson-1.6.jar`](https://github.com/google/gson/releases/tag/gson-2.4)
+* [`gson-1.6.jar`](https://github.com/google/gson/releases/tag/gson-2.4)
 
 Restart the XL Release server after installing the JAR files.
 
@@ -64,24 +63,6 @@ Restart the XL Release server after installing the JAR files.
 ### Update Content task
 
 ![image-update-content](images/update-content.png)
-
-### GitHub API
-
-You can use GitHub API using Script tasks in your XL Release template. For example, to create a comment on an issue or a pull request you can use following script:
-
-    pull_request_number = 2
-    repository_full_name = 'xebialabs-community/xlr-github-plugin'
-    comment = 'Hello, World!'
-
-    from com.xebialabs.xlrelease.plugin.github import GitHubUtils
-    from org.eclipse.egit.github.core.service import IssueService
-    github_client = GitHubUtils.getGitHubClient(repository_full_name)
-    repository = GitHubUtils.createRepositoryId(repository_full_name)
-    issue_service = IssueService(github_client)
-
-    issue_service.createComment(repository, pull_request_number, comment)
-
-Please check the [GitHub API](https://developer.github.com/v3/) and [Eclipse GitHub Java API documentation](https://github.com/eclipse/egit-github/blob/master/org.eclipse.egit.github.core/README.md) for the list of services and methods available.
 
 ## References
 
