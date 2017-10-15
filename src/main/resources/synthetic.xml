@@ -23,7 +23,6 @@
         <property name="repositoryName" category="input" />
 
         <property name="repositoryId" category="output" />
-
     </type>
 
 

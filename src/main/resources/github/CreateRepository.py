@@ -13,7 +13,11 @@ from org.eclipse.egit.github.core import User
 from org.eclipse.egit.github.core.client import GitHubClient
 from org.eclipse.egit.github.core.service import RepositoryService
 
-github_client = GitHubClient().setCredentials(user, password)
+if githubServer is None:
+  github_client = GitHubClient().setCredentials(user, password)
+else:
+  github_client = GitHubClient(githubServer).setCredentials(user, password)
+
 rs = RepositoryService(github_client)
 github_user = User().setLogin(user)
 new_repository = Repository()
