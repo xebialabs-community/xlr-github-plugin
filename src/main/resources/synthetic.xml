@@ -21,6 +21,9 @@
         <property name="password" category="input" password="true" />
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
+        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
+        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
+        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
 
         <property name="repositoryId" category="output" />
     </type>

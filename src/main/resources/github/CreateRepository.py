@@ -8,15 +8,24 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+import sys
 from org.eclipse.egit.github.core import Repository
 from org.eclipse.egit.github.core import User
 from org.eclipse.egit.github.core.client import GitHubClient
 from org.eclipse.egit.github.core.service import RepositoryService
 
-if githubServer is None:
+if host is None:
   github_client = GitHubClient().setCredentials(user, password)
+elif (not port) and (not scheme):
+  github_client = GitHubClient(host).setCredentials(user, password)
+elif port and scheme:
+  github_client = GitHubClient(host, port, scheme).setCredentials(user, password)
 else:
-  github_client = GitHubClient(githubServer).setCredentials(user, password)
+  print "Valid combinations for host, port, scheme are:\n"
+  print "(1) host not given, port not given, scheme not given:  public GitHub (https://github.com)\n"
+  print "(2) host given, port not given, scheme not given:  GitHub Enterprise (https://host)\n"
+  print "(3) host given, port given, scheme given:  GitHub Enterprise (scheme://host:port)\n"
+  sys.exit(1)
 
 rs = RepositoryService(github_client)
 github_user = User().setLogin(user)
