@@ -14,18 +14,17 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <type type="github.CreateRepository" extends="xlrelease.PythonScript">
+    <type type="github.UpdateContent" extends="xlrelease.PythonScript">
         <property name="iconLocation" default="github/github.png" hidden="true" />
 
-        <property name="user" category="input" />
-        <property name="password" category="input" password="true" />
-        <property name="organization" category="input" required="false" />
-        <property name="repositoryName" category="input" />
-        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
-        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
-        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
+        <property name="gitRepository" category="input" referenced-type="git.Repository" kind="ci"/>
+        <property name="branch" category="input" default="master"/>
+        <property name="filePath" category="input"/>
+        <property name="regex" category="input"/>
+        <property name="replacement" category="input"/>
+        <property name="commitMessage" category="input"/>
 
-        <property name="repositoryId" category="output" />
+        <property name="commitId" required="false" category="output" description="ID of commit in which content was updated"/>
     </type>
 
     <type type="github.CreateBranch" extends="xlrelease.PythonScript">
@@ -42,17 +41,30 @@
         <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
     </type>
 
-    <type type="github.UpdateContent" extends="xlrelease.PythonScript">
+    <type type="github.CreateRepository" extends="xlrelease.PythonScript">
         <property name="iconLocation" default="github/github.png" hidden="true" />
 
-        <property name="gitRepository" category="input" referenced-type="git.Repository" kind="ci"/>
-        <property name="branch" category="input" default="master"/>
-        <property name="filePath" category="input"/>
-        <property name="regex" category="input"/>
-        <property name="replacement" category="input"/>
-        <property name="commitMessage" category="input"/>
+        <property name="user" category="input" />
+        <property name="password" category="input" password="true" />
+        <property name="organization" category="input" required="false" />
+        <property name="repositoryName" category="input" />
+        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
+        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
+        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
 
-        <property name="commitId" required="false" category="output" description="ID of commit in which content was updated"/>
+        <property name="repositoryId" category="output" />
+    </type>
+
+    <type type="github.PullRequestTrigger" extends="xlrelease.ReleaseTrigger">
+        <property name="user" category="input" />
+        <property name="password" category="input" password="true" />
+        <property name="organization" category="input" required="false" />
+        <property name="repositoryName" category="input" />
+        <property name="branch" category="input" />
+        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
+        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
+        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
+        <property name="pullRequest" category="variables" required="false" />
     </type>
 
 </synthetic>
