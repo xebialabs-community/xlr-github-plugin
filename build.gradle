@@ -44,5 +44,5 @@ license {
   strictCheck false
   ext.year = Calendar.getInstance().get(Calendar.YEAR)
   ext.name = 'XEBIALABS'
-  excludes(["**/github/**/*.py", "**/jwt/**/*.py"])
+  excludes(["**/github/**/*.py", "**/github/**/*.txt", "**/jwt/**/*.py"])
 }

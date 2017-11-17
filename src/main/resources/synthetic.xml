@@ -71,6 +71,16 @@
         <property name="repositoryId" category="output" />
     </type>
 
+    <type type="github.CreateTag" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/CreateTag.py"/>
+
+        <property name="organization" category="input" required="false" />
+        <property name="repositoryName" category="input" />
+        <property name="tagName" category="input" />
+
+        <property name="repositoryId" category="output" />
+    </type>
+
     <type type="github.PullRequestTrigger" extends="xlrelease.ReleaseTrigger">
         <property name="scriptLocation" hidden="true" default="xlr/github/PullRequestTrigger.py"/>
 
