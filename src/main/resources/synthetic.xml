@@ -76,9 +76,9 @@
 
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
-        <property name="tagName" category="input" />
-
-        <property name="repositoryId" category="output" />
+        <property name="branch" category="input" default="master"/>
+        <property name="tagName" category="input" description="The tag"/>
+        <property name="tagMessage" category="input" description="The tag message" />
     </type>
 
     <type type="github.PullRequestTrigger" extends="xlrelease.ReleaseTrigger">

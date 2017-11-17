@@ -57,7 +57,11 @@ Restart the XL Release server after installing the JAR files.
 
 ### Create Branch task
 
-![image-create-repository](images/create-branch.png)
+![image-create-branch](images/create-branch.png)
+
+### Create Tag task
+
+![image-create-tag](images/create-tag.png)
 
 ### Update Content task
 
@@ -65,7 +69,7 @@ Restart the XL Release server after installing the JAR files.
 
 ### Pull Request Trigger
 
-![image-update-content](images/pr-trigger.png)
+![image-pull-request](images/pr-trigger.png)
 
 ## References
 
