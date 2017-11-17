@@ -14,10 +14,36 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <type type="github.UpdateContent" extends="xlrelease.PythonScript">
-        <property name="iconLocation" default="github/github.png" hidden="true" />
+    <type type="github.Server" extends="xlrelease.Configuration">
+        <property name="scriptLocation" hidden="true" default="xlr/github/ConnectionCheck.py"/>
 
-        <property name="gitRepository" category="input" referenced-type="git.Repository" kind="ci"/>
+        <property name="loginOrToken" label="Login" kind="string" required="false" description="Login or token" />
+        <property name="password" label="Password" kind="string" required="false" description="User password" password="true"/>
+        <property name="baseUrl" label="Base url" kind="string" required="true" description="Base url" default="https://api.github.com" />
+        <property name="timeout" label="Timeout" kind="integer" required="true" description="Timeout" default="10" />
+        <property name="clientId" label="Client id" kind="string" required="false" description="Client ID" />
+        <property name="clientSecret" label="Client secret" kind="string" required="false" description="Client Secret" password="true"/>
+        <property name="userAgent" label="User Agent" kind="string" required="true" description="default user agent to use" default="PyGithub/Python" hidden="true"/>
+        <property name="perPage" label="Per page" kind="integer" required="true" description="Number of items per page" default="30" hidden="true"/>
+        <property name="apiPreview" label="Api preview" kind="boolean" required="true" description="Use api preview" default="false" hidden="true"/>
+    </type>
+
+    <type type="github.Task" extends="xlrelease.PythonScript" virtual="true">
+        <property name="iconLocation" default="xlr/github/github.png" hidden="true" />
+
+        <property name="server" category="input" referenced-type="github.Server" kind="ci"/>
+        <property name="loginOrToken" label="Login" category="input" kind="string" required="false" description="Overrides shared configuration Login or token" />
+        <property name="password" label="Password" category="input" kind="string" required="false" description="Overrides shared configuration User password" password="true"/>
+        <property name="clientId" label="Client id" category="input" kind="string" required="false" description="Overrides shared configuration Client ID" />
+        <property name="clientSecret" label="Client secret" category="input" kind="string" required="false" description="Overrides shared configuration Client Secret" password="true"/>
+
+    </type>
+
+    <type type="github.UpdateContent" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/UpdateContent.py"/>
+
+        <property name="organization" category="input" required="false" />
+        <property name="repositoryName" category="input" />
         <property name="branch" category="input" default="master"/>
         <property name="filePath" category="input"/>
         <property name="regex" category="input"/>
@@ -27,43 +53,46 @@
         <property name="commitId" required="false" category="output" description="ID of commit in which content was updated"/>
     </type>
 
-    <type type="github.CreateBranch" extends="xlrelease.PythonScript">
-        <property name="iconLocation" default="github/github.png" hidden="true" />
+    <type type="github.CreateBranch" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/CreateBranch.py"/>
 
-        <property name="user" category="input" />
-        <property name="password" category="input" password="true" />
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
-        <property name="oldBranch" category="input" />
-        <property name="newBranch" category="input" />
-        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
-        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
-        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
+        <property name="oldBranch" category="input" description="Branch to be created from"/>
+        <property name="newBranch" category="input" description="New branch to be created"/>
     </type>
 
-    <type type="github.CreateRepository" extends="xlrelease.PythonScript">
-        <property name="iconLocation" default="github/github.png" hidden="true" />
+    <type type="github.CreateRepository" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/CreateRepository.py"/>
 
-        <property name="user" category="input" />
-        <property name="password" category="input" password="true" />
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
-        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
-        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
-        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
 
         <property name="repositoryId" category="output" />
     </type>
 
-    <type type="github.PullRequestTrigger" extends="xlrelease.ReleaseTrigger">
-        <property name="user" category="input" />
-        <property name="password" category="input" password="true" />
+    <type type="github.CreateTag" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/CreateTag.py"/>
+
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
-        <property name="branch" category="input" />
-        <property name="host" category="input" required="false" description="Specify for GitHub Enterprise host" />
-        <property name="port" category="input" kind="integer" required="false" description="Port number (blank for default)"/>
-        <property name="scheme" category="input" required="false" description="http or https (blank for default)" />
+        <property name="branch" category="input" default="master"/>
+        <property name="tagName" category="input" description="The tag"/>
+        <property name="tagMessage" category="input" description="The tag message" />
+    </type>
+
+    <type type="github.PullRequestTrigger" extends="xlrelease.ReleaseTrigger">
+        <property name="scriptLocation" hidden="true" default="xlr/github/PullRequestTrigger.py"/>
+
+        <property name="server" category="input" referenced-type="github.Server" kind="ci"/>
+        <property name="loginOrToken" label="Login" category="input" kind="string" required="false" description="Overrides shared configuration Login or token" />
+        <property name="password" label="Password" category="input" kind="string" required="false" description="Overrides shared configuration User password" password="true"/>
+        <property name="clientId" label="Client id" category="input" kind="string" required="false" description="Overrides shared configuration Client ID" />
+        <property name="clientSecret" label="Client secret" category="input" kind="string" required="false" description="Overrides shared configuration Client Secret" password="true"/>
+
+        <property name="organization" category="input" required="false" />
+        <property name="repositoryName" category="input" />
+
         <property name="pullRequest" category="variables" required="false" />
     </type>
 
