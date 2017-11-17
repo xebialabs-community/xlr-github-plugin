@@ -12,12 +12,7 @@ from xlr.github.GithubClient import GithubClient
 
 g_client = GithubClient(server)
 g = g_client.get_github_client(locals())
-
-
-if organization:
-  repo = g.get_organization(organization).get_repo(repositorName)
-else:
-  repo = g.get_user().get_repo(repositoryName)
+repo = g_client.get_repo(g, organization, repositoryName)
 
 sha = repo.get_branch(oldBranch).commit.sha
 ref = repo.create_git_ref(ref="refs/heads/%s" % newBranch, sha=sha)

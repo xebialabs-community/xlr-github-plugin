@@ -37,3 +37,8 @@ class GithubClient(object):
         # First create a Github instance:
         return Github(self.login_or_token, self.pwd, self.base_url, self.timeout, self.client_id, self.client_secret,
                       self.user_agent, self.per_page, self.api_preview)
+
+    def get_repo(self, g_client, organization, repo_name):
+        if organization:
+            return g_client.get_organization(organization).get_repo(repo_name)
+        return g_client.get_user().get_repo(repo_name)

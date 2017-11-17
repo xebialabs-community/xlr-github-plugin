@@ -13,12 +13,7 @@ from xlr.github.GithubClient import GithubClient
 
 g_client = GithubClient(server)
 g = g_client.get_github_client(locals())
-
-
-if organization:
-    repo = g.get_organization(organization).get_repo(repositorName)
-else:
-    repo = g.get_user().get_repo(repositoryName)
+repo = g_client.get_repo(g, organization, repositoryName)
 
 file_contents = repo.get_file_contents(filePath, ref="refs/heads/%s" % branch)
 current_contents = file_contents.content
