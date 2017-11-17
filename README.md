@@ -28,10 +28,7 @@ The `xlr-github-plugin` is an [XL Release](https://docs.xebialabs.com/xl-release
 
 ## Requirements
 
-* org.eclipse.egit.github.core-2.1.5.jar
-* gson-1.6.jar
-
-**NOTE**: this plugin depends on the `xlr-git-plugin` which is shipped in standard XL Release distribution.
+* **XL Release Server** 7+
 
 ## Installation
 
@@ -46,11 +43,9 @@ You can use the gradle wrapper to build the plugin.
 
 ### Installing
 
-To install this plugin you need to put two jar files into `XL_RELEASE_SERVER_HOME/plugins` and restart XL Release:
+To install this plugin you need to put the jar file into `XL_RELEASE_SERVER_HOME/plugins` and restart XL Release:
 
 * `xlr-github-plugin-<version>.jar` (you can find it in `xlr-github-plugin/build/libs/` once you build it),
-* [`org.eclipse.egit.github.core-2.1.5.jar`](http://central.maven.org/maven2/org/eclipse/mylyn/github/org.eclipse.egit.github.core/2.1.5/org.eclipse.egit.github.core-2.1.5.jar),
-* [`gson-1.6.jar`](https://github.com/google/gson/releases/tag/gson-2.4)
 
 Restart the XL Release server after installing the JAR files.
 
@@ -60,9 +55,17 @@ Restart the XL Release server after installing the JAR files.
 
 ![image-create-repository](images/create-repository.png)
 
+### Create Branch task
+
+![image-create-repository](images/create-branch.png)
+
 ### Update Content task
 
 ![image-update-content](images/update-content.png)
+
+### Pull Request Trigger
+
+![image-update-content](images/pr-trigger.png)
 
 ## References
 

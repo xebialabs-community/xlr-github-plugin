@@ -1,5 +1,7 @@
 .gradle
-build
 .idea
 *.iml
 *.log
+build
+nohup.out
+supervisord.*
