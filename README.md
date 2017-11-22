@@ -71,6 +71,10 @@ Restart the XL Release server after installing the JAR files.
 
 ![image-pull-request](images/pr-trigger.png)
 
+### Commit Trigger
+
+![image-commit-trigger](images/commit-trigger.png)
+
 ## References
 
 ### Development

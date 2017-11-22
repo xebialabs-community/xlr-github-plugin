@@ -81,9 +81,7 @@
         <property name="tagMessage" category="input" description="The tag message" />
     </type>
 
-    <type type="github.PullRequestTrigger" extends="xlrelease.ReleaseTrigger">
-        <property name="scriptLocation" hidden="true" default="xlr/github/PullRequestTrigger.py"/>
-
+    <type type="github.Trigger" extends="xlrelease.ReleaseTrigger" virtual="true">
         <property name="server" category="input" referenced-type="github.Server" kind="ci"/>
         <property name="loginOrToken" label="Login" category="input" kind="string" required="false" description="Overrides shared configuration Login or token" />
         <property name="password" label="Password" category="input" kind="string" required="false" description="Overrides shared configuration User password" password="true"/>
@@ -92,8 +90,20 @@
 
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
+    </type>
+
+    <type type="github.PullRequestTrigger" extends="github.Trigger">
+        <property name="scriptLocation" hidden="true" default="xlr/github/PullRequestTrigger.py"/>
 
         <property name="pullRequest" category="variables" required="false" />
+    </type>
+
+    <type type="github.CommitTrigger" extends="github.Trigger">
+        <property name="scriptLocation" hidden="true" default="xlr/github/CommitTrigger.py"/>
+
+        <property name="branch" category="input" default="master"/>
+
+        <property name="commitId" category="variables" required="false" />
     </type>
 
 </synthetic>
