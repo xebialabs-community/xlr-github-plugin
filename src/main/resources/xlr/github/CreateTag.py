@@ -14,7 +14,8 @@ g_client = GithubClient(server)
 g = g_client.get_github_client(locals())
 repo = g_client.get_repo(g, organization, repositoryName)
 
-sha = repo.get_branch(branch).commit.sha
+if not sha:
+    sha = repo.get_branch(branch).commit.sha
 t = repo.create_git_tag(tag=tagName, message=tagMessage, object=sha, type="commit")
 repo.create_git_ref('refs/tags/{}'.format(t.tag), t.sha)
 print "Tag [%s] has been created" % t.sha
