@@ -76,7 +76,8 @@
 
         <property name="organization" category="input" required="false" />
         <property name="repositoryName" category="input" />
-        <property name="branch" category="input" default="master"/>
+        <property name="branch" category="input" default="master" required="false" description="When branch is specified, the tag will be placed on the latest commit on that branch."/>
+        <property name="sha" category="input" required="false" description="When sha is specified, the tag will be placed on the commit corresponding with that SHA. (Takes precedence over branch)" />
         <property name="tagName" category="input" description="The tag"/>
         <property name="tagMessage" category="input" description="The tag message" />
     </type>
