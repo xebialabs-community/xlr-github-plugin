@@ -67,6 +67,10 @@ Restart the XL Release server after installing the JAR files.
 
 ![image-update-content](images/update-content.png)
 
+### Merge Pull Request task
+
+![image-merge-pr](images/merge-pr.png)
+
 ### Pull Request Trigger
 
 ![image-pull-request](images/pr-trigger.png)
