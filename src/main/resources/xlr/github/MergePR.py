@@ -18,3 +18,5 @@ pr = repo.get_pull(pullRequestNumber)
 pr.merge(commitMessage)
 print "PR [%s] has been merged" % pullRequestNumber
 
+if deleteBranch:
+    repo.get_git_ref("heads/%s" % repo.get_pull(pullRequestNumber).head.ref).delete()

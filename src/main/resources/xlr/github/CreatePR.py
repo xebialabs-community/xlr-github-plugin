@@ -14,8 +14,7 @@ g_client = GithubClient(server)
 g = g_client.get_github_client(locals())
 repo = g_client.get_repo(g, organization, repositoryName)
 
-if not sha:
-    sha = repo.get_branch(oldBranch).commit.sha
-ref = repo.create_git_ref(ref="refs/heads/%s" % newBranch, sha=sha)
-print "Branch [%s] has been created" % ref.url
+pull = repo.create_pull(title=title, body=body, base=base, head=head)
+print "PR [%s] has been created" % pull.number
+pullRequestNumber = pull.number
 

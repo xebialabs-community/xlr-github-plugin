@@ -69,8 +69,26 @@
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
-        <property name="oldBranch" category="input" description="Branch to be created from"/>
+        <property name="oldBranch" category="input" default="master" required="false"
+                  description="When branch is specified, the new branch will be created from the latest commit on that branch."/>
+        <property name="sha" category="input" required="false"
+                  description="When sha is specified, the branch will be created from the commit corresponding with that SHA. (Takes precedence over oldBranch)"/>
         <property name="newBranch" category="input" description="New branch to be created"/>
+    </type>
+
+    <type type="github.CreatePullRequest" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/CreatePR.py"/>
+
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
+        <property name="title" category="input" required="true" description="The title of the pull request."/>
+        <property name="base" category="input" required="true"
+                  description="The name of the branch you want the changes pulled into. "/>
+        <property name="head" category="input" default="master" required="true"
+                  description="The name of the branch where your changes are implemented."/>
+        <property name="body" category="input" required="true" description="The contents of the pull request."/>
+
+        <property name="pullRequestNumber" category="output" kind="integer" description="The created Pull Request Number." />
     </type>
 
     <type type="github.MergePullRequest" extends="github.Task">
@@ -79,7 +97,8 @@
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
         <property name="pullRequestNumber" category="input" description="Pull Request Number to be merged" required="true" kind="integer" />
-        <property name="commitMessage" category="input" description="Commit Message" required="false" kind="string" />
+        <property name="commitMessage" category="input" description="Commit Message" required="true" kind="string" />
+        <property name="deleteBranch" category="input" description="Delete branch after merge" required="false" kind="boolean" default="true" />
     </type>
 
     <type type="github.CreateRepository" extends="github.Task">
