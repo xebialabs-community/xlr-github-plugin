@@ -17,86 +17,112 @@
     <type type="github.Server" extends="xlrelease.Configuration">
         <property name="scriptLocation" hidden="true" default="xlr/github/ConnectionCheck.py"/>
 
-        <property name="loginOrToken" label="Login" kind="string" required="false" description="Login or token" />
-        <property name="password" label="Password" kind="string" required="false" description="User password" password="true"/>
-        <property name="baseUrl" label="Base url" kind="string" required="true" description="Base url" default="https://api.github.com" />
-        <property name="timeout" label="Timeout" kind="integer" required="true" description="Timeout" default="10" />
-        <property name="clientId" label="Client id" kind="string" required="false" description="Client ID" />
-        <property name="clientSecret" label="Client secret" kind="string" required="false" description="Client Secret" password="true"/>
-        <property name="userAgent" label="User Agent" kind="string" required="true" description="default user agent to use" default="PyGithub/Python" hidden="true"/>
-        <property name="perPage" label="Per page" kind="integer" required="true" description="Number of items per page" default="30" hidden="true"/>
-        <property name="apiPreview" label="Api preview" kind="boolean" required="true" description="Use api preview" default="false" hidden="true"/>
+        <property name="loginOrToken" label="Login" kind="string" required="false" description="Login or token"/>
+        <property name="password" label="Password" kind="string" required="false" description="User password"
+                  password="true"/>
+        <property name="baseUrl" label="Base url" kind="string" required="true" description="Base url"
+                  default="https://api.github.com"/>
+        <property name="timeout" label="Timeout" kind="integer" required="true" description="Timeout" default="10"/>
+        <property name="clientId" label="Client id" kind="string" required="false" description="Client ID"/>
+        <property name="clientSecret" label="Client secret" kind="string" required="false" description="Client Secret"
+                  password="true"/>
+        <property name="userAgent" label="User Agent" kind="string" required="true"
+                  description="default user agent to use" default="PyGithub/Python" hidden="true"/>
+        <property name="perPage" label="Per page" kind="integer" required="true" description="Number of items per page"
+                  default="30" hidden="true"/>
+        <property name="apiPreview" label="Api preview" kind="boolean" required="true" description="Use api preview"
+                  default="false" hidden="true"/>
     </type>
 
     <type type="github.Task" extends="xlrelease.PythonScript" virtual="true">
-        <property name="iconLocation" default="xlr/github/github.png" hidden="true" />
+        <property name="iconLocation" default="xlr/github/github.png" hidden="true"/>
 
         <property name="server" category="input" referenced-type="github.Server" kind="ci"/>
-        <property name="loginOrToken" label="Login" category="input" kind="string" required="false" description="Overrides shared configuration Login or token" />
-        <property name="password" label="Password" category="input" kind="string" required="false" description="Overrides shared configuration User password" password="true"/>
-        <property name="clientId" label="Client id" category="input" kind="string" required="false" description="Overrides shared configuration Client ID" />
-        <property name="clientSecret" label="Client secret" category="input" kind="string" required="false" description="Overrides shared configuration Client Secret" password="true"/>
+        <property name="loginOrToken" label="Login" category="input" kind="string" required="false"
+                  description="Overrides shared configuration Login or token"/>
+        <property name="password" label="Password" category="input" kind="string" required="false"
+                  description="Overrides shared configuration User password" password="true"/>
+        <property name="clientId" label="Client id" category="input" kind="string" required="false"
+                  description="Overrides shared configuration Client ID"/>
+        <property name="clientSecret" label="Client secret" category="input" kind="string" required="false"
+                  description="Overrides shared configuration Client Secret" password="true"/>
 
     </type>
 
     <type type="github.UpdateContent" extends="github.Task">
         <property name="scriptLocation" hidden="true" default="xlr/github/UpdateContent.py"/>
 
-        <property name="organization" category="input" required="false" />
-        <property name="repositoryName" category="input" />
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
         <property name="branch" category="input" default="master"/>
         <property name="filePath" category="input"/>
         <property name="regex" category="input"/>
         <property name="replacement" category="input"/>
         <property name="commitMessage" category="input"/>
 
-        <property name="commitId" required="false" category="output" description="ID of commit in which content was updated"/>
+        <property name="commitId" required="false" category="output"
+                  description="ID of commit in which content was updated"/>
     </type>
 
     <type type="github.CreateBranch" extends="github.Task">
         <property name="scriptLocation" hidden="true" default="xlr/github/CreateBranch.py"/>
 
-        <property name="organization" category="input" required="false" />
-        <property name="repositoryName" category="input" />
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
         <property name="oldBranch" category="input" description="Branch to be created from"/>
         <property name="newBranch" category="input" description="New branch to be created"/>
+    </type>
+
+    <type type="github.MergePullRequest" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/MergePR.py"/>
+
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
+        <property name="pullRequestNumber" category="input" description="Pull Request Number to be merged" required="true" kind="integer" />
+        <property name="commitMessage" category="input" description="Commit Message" required="false" kind="string" />
     </type>
 
     <type type="github.CreateRepository" extends="github.Task">
         <property name="scriptLocation" hidden="true" default="xlr/github/CreateRepository.py"/>
 
-        <property name="organization" category="input" required="false" />
-        <property name="repositoryName" category="input" />
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
 
-        <property name="repositoryId" category="output" />
+        <property name="repositoryId" category="output"/>
     </type>
 
     <type type="github.CreateTag" extends="github.Task">
         <property name="scriptLocation" hidden="true" default="xlr/github/CreateTag.py"/>
 
-        <property name="organization" category="input" required="false" />
-        <property name="repositoryName" category="input" />
-        <property name="branch" category="input" default="master" required="false" description="When branch is specified, the tag will be placed on the latest commit on that branch."/>
-        <property name="sha" category="input" required="false" description="When sha is specified, the tag will be placed on the commit corresponding with that SHA. (Takes precedence over branch)" />
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
+        <property name="branch" category="input" default="master" required="false"
+                  description="When branch is specified, the tag will be placed on the latest commit on that branch."/>
+        <property name="sha" category="input" required="false"
+                  description="When sha is specified, the tag will be placed on the commit corresponding with that SHA. (Takes precedence over branch)"/>
         <property name="tagName" category="input" description="The tag"/>
-        <property name="tagMessage" category="input" description="The tag message" />
+        <property name="tagMessage" category="input" description="The tag message"/>
     </type>
 
     <type type="github.Trigger" extends="xlrelease.ReleaseTrigger" virtual="true">
         <property name="server" category="input" referenced-type="github.Server" kind="ci"/>
-        <property name="loginOrToken" label="Login" category="input" kind="string" required="false" description="Overrides shared configuration Login or token" />
-        <property name="password" label="Password" category="input" kind="string" required="false" description="Overrides shared configuration User password" password="true"/>
-        <property name="clientId" label="Client id" category="input" kind="string" required="false" description="Overrides shared configuration Client ID" />
-        <property name="clientSecret" label="Client secret" category="input" kind="string" required="false" description="Overrides shared configuration Client Secret" password="true"/>
+        <property name="loginOrToken" label="Login" category="input" kind="string" required="false"
+                  description="Overrides shared configuration Login or token"/>
+        <property name="password" label="Password" category="input" kind="string" required="false"
+                  description="Overrides shared configuration User password" password="true"/>
+        <property name="clientId" label="Client id" category="input" kind="string" required="false"
+                  description="Overrides shared configuration Client ID"/>
+        <property name="clientSecret" label="Client secret" category="input" kind="string" required="false"
+                  description="Overrides shared configuration Client Secret" password="true"/>
 
-        <property name="organization" category="input" required="false" />
-        <property name="repositoryName" category="input" />
+        <property name="organization" category="input" required="false"/>
+        <property name="repositoryName" category="input"/>
     </type>
 
     <type type="github.PullRequestTrigger" extends="github.Trigger">
         <property name="scriptLocation" hidden="true" default="xlr/github/PullRequestTrigger.py"/>
 
-        <property name="pullRequest" category="variables" required="false" />
+        <property name="pullRequest" category="variables" required="false"/>
     </type>
 
     <type type="github.CommitTrigger" extends="github.Trigger">
@@ -104,7 +130,7 @@
 
         <property name="branch" category="input" default="master"/>
 
-        <property name="commitId" category="variables" required="false" />
+        <property name="commitId" category="variables" required="false"/>
     </type>
 
 </synthetic>
