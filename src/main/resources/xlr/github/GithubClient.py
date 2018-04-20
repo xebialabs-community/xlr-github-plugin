@@ -42,3 +42,8 @@ class GithubClient(object):
         if organization:
             return g_client.get_organization(organization).get_repo(repo_name)
         return g_client.get_user().get_repo(repo_name)
+
+    def get_tags(self, g_client, organization, repo_name):
+        if organization:
+            return self.get_repo(g_client, organization, repo_name).get_tags()
+        return g_client.get_user().get_repo(repo_name).get_tags()
