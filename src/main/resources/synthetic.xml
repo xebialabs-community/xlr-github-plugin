@@ -154,10 +154,19 @@
     <type type="github.GetVersionFromTag" extends="github.Task">
         <property name="scriptLocation" hidden="true" default="xlr/github/GetVersionFromTag.py"/>
 
-        <property name="organization" category="input" required="false"/>
+        <property name="organization" category="input" required="false" default="xebialabs"/>
         <property name="repositoryName" category="input" required="true"/>
         <property name="commitId" category="input" required="true"/>
         <property name="tagVersion" category="output"/>
+    </type>
+
+    <type type="github.GetHashFromRef" extends="github.Task">
+        <property name="scriptLocation" hidden="true" default="xlr/github/GetHashFromRef.py"/>
+
+        <property name="organization" category="input" required="false" default="xebialabs"/>
+        <property name="repositoryName" category="input" required="true"/>
+        <property name="refPath" category="input" required="false" default="heads/master"/>
+        <property name="refHash" category="output"/>
     </type>
 
 </synthetic>
