@@ -95,4 +95,6 @@ This project uses the [nebula-release-plugin](https://github.com/nebula-plugins/
 * to release a new minor release: `./gradlew final -Prelease.scope=minor`
 * to release a new major release: `./gradlew final -Prelease.scope=major`
 
+By default gradle uses the last tag created, so in order to bypass that include `-Prelease.useLastTag=false` in your gradle task.
+
 By default when you build the project it builds a snapshot version of next (to be released) minor release. You can get rid of `-SNAPSHOT` in the version by adding command-line parameter `-Prelease.stage=final`. Note that your Git project must be clean to be able to set version to `final` stage.
