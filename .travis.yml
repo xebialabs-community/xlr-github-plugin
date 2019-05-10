@@ -11,6 +11,5 @@ deploy:
     tags: true
     repo: xebialabs-community/xlr-github-plugin
 notifications:
-  hipchat:
-    rooms:
-      secure: atecPf6BLb4OWHPXkEp1HfBpFFAT4oS+h0azZKsExAxdA8NNgI4q7+fYdtBhp4u3svnp3jea3YtuuIodiUHe9lTPTVx8mkEtT61B0HmhWJUQKaoMqQSJolV4ChY4dBe9PnPwntai3gJsoRhqWio6r2BHpOj+PhqJRSx0TbsvNFQ=
+  slack:
+    secure: pnB3cTAYO5wJbRu5du70AbAfJa/2/GGQqPDsEDLyQRErh3SSvBkNwgXsd9d8mTcjLOwVV38T+c09kbAcPlQsHUA7MwKUNZNrPzfMyHm9/2Y3KIXiDuox4BXt3gG2juaaM95WQckf7t/2ukvRHL8Jua/DzUD/unsk38N9IUS/On4=
