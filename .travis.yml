@@ -2,7 +2,7 @@ language: java
 deploy:
   provider: releases
   api_key:
-    secure: fJtT+1oHGNZ/zsDHr7SiNsvs4RoLBFgeUzCRMws/rpjzZzZ2xSWPsv/6diQQewva1RE17kGszLFBkkGgwotF654Zm9e6RtEU7W6nK216CEYTT0q1aTQiaeQSpjJjLRfVIs0KniW5/ohiLVzU9vA31opXU9kp8jGFKkmxpxpCn8E=
+    secure: S2z4weKP0+/Ip/rvVzlPep3uEGA9cjzq82/OCUgNOWlkv3VrF6X2VAkZfz0TJGJCux+jokXalrItT1ePeWToGDwAf5g98R92QecvFdb6GwyFXIhFdoFCz9BgOD7FZqpFPQByBecBqTphQdKmraSlhCaRN3WwmSFtCt3xIPMNoYw=
   file_glob: true
   file: build/libs/*
   skip_cleanup: true
