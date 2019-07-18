@@ -29,10 +29,10 @@ if (!project.hasProperty('release.useLastTag')) {
 }
 
 dependencies {
-  jython python(":PyJWT:1.5.3") {
+  jython python(":PyJWT:1.7.1") {
     moduleName = "jwt"
   }
-  jython python(":PyGithub:1.35") {
+  jython python(":PyGithub:1.43.7") {
     moduleName = "github"
   }
 
