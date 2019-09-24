@@ -20,7 +20,7 @@
         <property name="password" label="Password" kind="string" required="false" description="User password"
                   password="true"/>
         <property name="baseUrl" label="Base url" kind="string" required="true" description="Base url"
-                  default="https://api.github.com"/>
+                  description="Include the API version - for example https://github.myorg.com/api/v3"/>
         <property name="timeout" label="Timeout" kind="integer" required="true" description="Timeout" default="10"/>
         <property name="clientId" label="Client id" kind="string" required="false" description="Client ID"/>
         <property name="clientSecret" label="Client secret" kind="string" required="false" description="Client Secret"
