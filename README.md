@@ -49,6 +49,12 @@ To install this plugin you need to put the jar file into `XL_RELEASE_SERVER_HOME
 
 Restart the XL Release server after installing the JAR files.
 
+## Configuration
+
+Users can choose a variety of authentication methods, and based on the method chosen, a subset of the configuration fields will need to be filled out.  The most common approach would be using an authentication token in the "Login or token" field.  This token is generated within the GitHub GUI, and the defined scopes for the token should match up with what you intend to orchestrate through XL Release.  For the base url, the API version should be specified - something like https://github.example.com/api/v3 for GitHub Enterprise customers running on their own domain.  Client ID and Client Secret are fields for an alternative authentication method - these can be left blank in the case of token authentication.  
+
+The User Agent, Per Page, and API Preview fields should be left at their default value for users getting started with the plugin.  These settings enable additional control over API calls.
+
 ## Usage 
 
 ### Create Repository task
