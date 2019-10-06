@@ -10,13 +10,14 @@
 
 from java.util.regex import Pattern
 from xlr.github.GithubClient import GithubClient
+import base64
 
 g_client = GithubClient(server)
 g = g_client.get_github_client(locals())
 repo = g_client.get_repo(g, organization, repositoryName)
 
 file_contents = repo.get_file_contents(filePath, ref="refs/heads/%s" % branch)
-current_contents = file_contents.content
+current_contents = base64.b64decode(file_contents.content)
 
 flags = Pattern.MULTILINE ^ Pattern.DOTALL
 matcher = Pattern.compile(regex, flags).matcher(current_contents)
