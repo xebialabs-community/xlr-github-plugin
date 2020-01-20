@@ -1,4 +1,4 @@
-from xlr.github.GithubClient import GithubClient
+from github.GithubClient import GithubClient
 
 g_client = GithubClient(configuration)
 g = g_client.get_github_client()

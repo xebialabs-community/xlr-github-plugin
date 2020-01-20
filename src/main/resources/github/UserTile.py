@@ -1,5 +1,5 @@
 #
-# Copyright 2019 XEBIALABS
+# Copyright 2020 XEBIALABS
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
@@ -8,13 +8,23 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-from xlr.github.GithubClient import GithubClient
+from github.GithubClient import GithubClient
+import org.slf4j.LoggerFactory as LoggerFactory
+
+logger = LoggerFactory.getLogger("Github")
 
 g_client = GithubClient(server)
-g = g_client.get_github_client(locals())
-repo = g_client.get_repo(g, organization, repositoryName)
+# Call method get_github_client in GithubClient.py
+g = g_client.get_github_client()
+# Now that we have our github client, we can retrieve the user information
+user_login = g.get_user().login
+logger.error("my user login value is: %s" % user_login)
+user_id = g.get_user().id
+logger.error("my user id value is: %s" % user_id)
+user_name = g.get_user().name
+logger.error("my user name value is: %s" % user_name)
 
-pull = repo.create_pull(title=title, body=body, base=base, head=head)
-print "PR [%s] has been created" % pull.number
-pullRequestNumber = pull.number
-
+# Set the response data attribute with the JSON object I want to pass to the html for display
+data = {"user_login": user_login,
+        "user_id": user_id,
+        "user_name": user_name}
