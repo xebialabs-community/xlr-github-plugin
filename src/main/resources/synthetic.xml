@@ -1,20 +1,18 @@
-<!--
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Copyright 2020 XEBIALABS
 
-    Copyright 2019 XEBIALABS
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 <synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
     <type type="github.Server" extends="xlrelease.Configuration">
-        <property name="scriptLocation" hidden="true" default="xlr/github/ConnectionCheck.py"/>
+        <property name="scriptLocation" hidden="true" default="github/ConnectionCheck.py"/>
 
         <property name="loginOrToken" label="Login" kind="string" required="false" description="Login or token"/>
         <property name="password" label="Password" kind="string" required="false" description="User password"
@@ -34,7 +32,7 @@
     </type>
 
     <type type="github.Task" extends="xlrelease.PythonScript" virtual="true">
-        <property name="iconLocation" default="xlr/github/github.png" hidden="true"/>
+        <property name="iconLocation" default="github/github.png" hidden="true"/>
 
         <property name="server" category="input" referenced-type="github.Server" kind="ci"/>
         <property name="loginOrToken" label="Login" category="input" kind="string" required="false"
@@ -49,7 +47,7 @@
     </type>
 
     <type type="github.UpdateContent" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/UpdateContent.py"/>
+        <property name="scriptLocation" hidden="true" default="github/UpdateContent.py"/>
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
@@ -64,7 +62,7 @@
     </type>
 
     <type type="github.CreateBranch" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/CreateBranch.py"/>
+        <property name="scriptLocation" hidden="true" default="github/CreateBranch.py"/>
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
@@ -76,7 +74,7 @@
     </type>
 
     <type type="github.CreatePullRequest" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/CreatePR.py"/>
+        <property name="scriptLocation" hidden="true" default="github/CreatePR.py"/>
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
@@ -91,7 +89,7 @@
     </type>
 
     <type type="github.MergePullRequest" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/MergePR.py"/>
+        <property name="scriptLocation" hidden="true" default="github/MergePR.py"/>
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
@@ -101,7 +99,7 @@
     </type>
 
     <type type="github.CreateRepository" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/CreateRepository.py"/>
+        <property name="scriptLocation" hidden="true" default="github/CreateRepository.py"/>
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
@@ -110,7 +108,7 @@
     </type>
 
     <type type="github.CreateTag" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/CreateTag.py"/>
+        <property name="scriptLocation" hidden="true" default="github/CreateTag.py"/>
 
         <property name="organization" category="input" required="false"/>
         <property name="repositoryName" category="input"/>
@@ -138,13 +136,13 @@
     </type>
 
     <type type="github.PullRequestTrigger" extends="github.Trigger">
-        <property name="scriptLocation" hidden="true" default="xlr/github/PullRequestTrigger.py"/>
+        <property name="scriptLocation" hidden="true" default="github/PullRequestTrigger.py"/>
 
         <property name="pullRequest" category="variables" required="false"/>
     </type>
 
     <type type="github.CommitTrigger" extends="github.Trigger">
-        <property name="scriptLocation" hidden="true" default="xlr/github/CommitTrigger.py"/>
+        <property name="scriptLocation" hidden="true" default="github/CommitTrigger.py"/>
 
         <property name="branch" category="input" default="master"/>
 
@@ -152,7 +150,7 @@
     </type>
 
     <type type="github.GetVersionFromTag" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/GetVersionFromTag.py"/>
+        <property name="scriptLocation" hidden="true" default="github/GetVersionFromTag.py"/>
 
         <property name="organization" category="input" required="false" default="xebialabs"/>
         <property name="repositoryName" category="input" required="true"/>
@@ -161,12 +159,20 @@
     </type>
 
     <type type="github.GetHashFromRef" extends="github.Task">
-        <property name="scriptLocation" hidden="true" default="xlr/github/GetHashFromRef.py"/>
+        <property name="scriptLocation" hidden="true" default="github/GetHashFromRef.py"/>
 
         <property name="organization" category="input" required="false" default="xebialabs"/>
         <property name="repositoryName" category="input" required="true"/>
         <property name="refPath" category="input" required="false" default="heads/master"/>
         <property name="refHash" category="output"/>
+    </type>
+
+    <!-- Tile Configuration -->
+    <type type="github.UserTile" label="Github User Tile" extends="xlrelease.Tile" description="Display the github user we are connected too">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="user-summary.html"/>
+        <property name="title" description="Tile title." default="Github User Summary"/>
+        <property name="server" category="input" label="Github Server" referenced-type="github.Server" kind="ci" />
     </type>
 
 </synthetic>

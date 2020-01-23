@@ -1,5 +1,5 @@
 #
-# Copyright 2019 XEBIALABS
+# Copyright 2020 XEBIALABS
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
@@ -8,24 +8,24 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-from java.util.regex import Pattern
-from xlr.github.GithubClient import GithubClient
-import base64
+from sets import Set
+from github.GithubClient import GithubClient
+
 
 g_client = GithubClient(server)
 g = g_client.get_github_client(locals())
 repo = g_client.get_repo(g, organization, repositoryName)
 
-file_contents = repo.get_file_contents(filePath, ref="refs/heads/%s" % branch)
-current_contents = base64.b64decode(file_contents.content)
+if not triggerState:
+  triggerState = 0
 
-flags = Pattern.MULTILINE ^ Pattern.DOTALL
-matcher = Pattern.compile(regex, flags).matcher(current_contents)
-if matcher.find():
-    new_contents = matcher.replaceAll(replacement)
-    print "Replacing contents of %s/%s (%s) from:\n%s\nto:\n%s" % (repositoryName, filePath, branch, current_contents, new_contents)
-    result = repo.update_file(filePath, commitMessage, new_contents, file_contents.sha, branch)
-    commitId = result['commit'].sha
-else:
-    print "Did not find any occurrences of pattern [%s] in content:\n%s" % (regex, current_contents)
-    commitId = None
+pr_set = Set()
+
+for pr in repo.get_pulls(state="open"):
+  pr_number = pr.number
+  if pr_number > int(triggerState):
+    pr_set.add(pr_number)
+
+if pr_set:
+  triggerState = str(min(pr_set))
+  pullRequest = triggerState
