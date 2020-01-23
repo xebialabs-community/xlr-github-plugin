@@ -18,11 +18,11 @@ g_client = GithubClient(server)
 g = g_client.get_github_client()
 # Now that we have our github client, we can retrieve the user information
 user_login = g.get_user().login
-logger.error("my user login value is: %s" % user_login)
+logger.debug("my user login value is: %s" % user_login)
 user_id = g.get_user().id
-logger.error("my user id value is: %s" % user_id)
+logger.debug("my user id value is: %s" % user_id)
 user_name = g.get_user().name
-logger.error("my user name value is: %s" % user_name)
+logger.debug("my user name value is: %s" % user_name)
 
 # Set the response data attribute with the JSON object I want to pass to the html for display
 data = {"user_login": user_login,
