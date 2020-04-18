@@ -175,4 +175,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <property name="server" category="input" label="Github Server" referenced-type="github.Server" kind="ci" />
     </type>
 
+    <type type="github.WaitForMerge" extends="github.Task" >
+        <property name="scriptLocation" hidden="true" default="github/WaitForMerge.py"/>
+        <property name="organization" category="input" required="false" default="xebialabs"/>
+        <property name="repositoryName" category="input" required="true"/>
+        <property name="prid" category="input"  kind="integer" description="Pull Request Id" label="Pull Request Id"/>
+        <property name="pollInterval" category="input" kind="integer" description="Polling Interval in seconds" label="Poll Interval"/>
+    </type>
+
 </synthetic>

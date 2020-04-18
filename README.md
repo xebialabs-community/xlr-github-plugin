@@ -89,6 +89,10 @@ The User Agent, Per Page, and API Preview fields should be left at their default
 
 ![image-commit-trigger](images/commit-trigger.png)
 
+### Wait For PR Merge
+
+![image-wait-pr-merge](images/wait-pr-merge.png)
+
 ## References
 
 ### Development
