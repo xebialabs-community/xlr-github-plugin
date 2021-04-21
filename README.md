@@ -16,6 +16,9 @@
 [xlr-github-plugin-license-url]: https://opensource.org/licenses/MIT
 [xlr-github-plugin-downloads-image]: https://img.shields.io/github/downloads/xebialabs-community/xlr-github-plugin/total.svg
 
+XL Release GitHub plugin is deprecated now as the plugin is insourced to xebialabs organization.
+The plugin is available on https://github.com/xebialabs/xlr-github-plugin
+
 ## Preface
 
 This document describes the functionality provided by the XL Release GitHub plugin.
